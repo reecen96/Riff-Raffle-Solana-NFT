@@ -53,7 +53,7 @@ const PrizeCardOngoing: FC<PrizeCardOngoingProps> = ({
                     setIsModalOpen(true)
                 }}
                 {...otherProps}
-                className={`${classes.root} ${className}`}
+                className={`${classes.root} `}
             >
                 {!isLoaded && (
                     <div>

@@ -1,5 +1,8 @@
 import { FC, useMemo, useRef } from 'react'
-import { WalletMultiButton } from '@solana/wallet-adapter-material-ui'
+import {
+    WalletMultiButton,
+    WalletDisconnectButton,
+} from '@solana/wallet-adapter-material-ui'
 import { ArrowBack, DoubleArrow } from '@material-ui/icons'
 import { Button, IconButton, Typography } from '@material-ui/core'
 import { useHistory } from 'react-router'
@@ -18,7 +21,11 @@ import PrizeGalleryOngoing from './components/PrizeGalleryOngoing'
 import { useViewport } from '../../hooks/useViewport'
 import { DeviceType } from '../../providers/ViewportProvider'
 import Spacer from '../../components/Spacer'
-
+import LogoAnimation from '../../components/LogoAnimation'
+import flameIcon from '../../assets/flameIcon.svg'
+import WinThisApe from '../../assets/WinThisApe.svg'
+import DaooLogo from '../../assets/DaooLogo.svg'
+import QuestionContent from './components/QuestionContent'
 interface IRaffleOngoingScreenProps {
     raffle: Raffle
     updateRaffle: () => void
@@ -33,8 +40,6 @@ const RaffleOngoingScreen: FC<IRaffleOngoingScreenProps> = ({
     const { push } = useHistory()
     const { draffleClient } = useProgramApis()
 
-    const prizeGalleryRef = useRef<HTMLDivElement>(null)
-
     const entrant = useMemo(() => {
         if (!draffleClient.provider.wallet?.publicKey) return
         return raffle?.entrants.get(
@@ -46,15 +51,35 @@ const RaffleOngoingScreen: FC<IRaffleOngoingScreenProps> = ({
 
     return (
         <div className={classes.root}>
-            {device === DeviceType.Phone ? (
-                <>
-                    <Typography variant="h1">{`> ${raffle.metadata.name}`}</Typography>
-                    {/* <div className={classes.countdown}>
-                        <Countdown
-                            endTimestamp={raffle.endTimestamp}
-                            spacing={'5%'}
-                        />
-                    </div> */}
+            <div className={classes.topSection}>
+                <div className={classes.raffleTitle}>
+                    <Typography variant="h1">Degen DAOO Raffle</Typography>
+                </div>
+                <div className={classes.raffleSubtitle}>
+                    <Typography variant="body1">
+                        Enter the raffle to have a chance to win this smooth
+                        brained Degen Ape Academy Ape. Each ticket costs 0.1 SOL
+                        (thanks #bidsmol), will last 7 days from the start, and
+                        you may buy as many tickets as you want.
+                    </Typography>
+                </div>
+            </div>
+            <div className={classes.mainContent}>
+                <div className={classes.prizesSection}>
+                    <PrizeShowcaseOngoing prizes={raffle.prizes} />
+                    <img src={WinThisApe} alt="Win this Ape!" />
+                </div>
+                <div className={classes.detailsSection}>
+                    <div className={classes.actionSectionContainer}>
+                        {draffleClient.provider.wallet.publicKey ? (
+                            <PurchaseTickets
+                                raffle={raffle}
+                                updateRaffle={updateRaffle}
+                            />
+                        ) : (
+                            <ConnectActionSection />
+                        )}
+                    </div>
                     <RaffleInfoSection
                         raffle={raffle}
                         userConnected={
@@ -62,88 +87,9 @@ const RaffleOngoingScreen: FC<IRaffleOngoingScreenProps> = ({
                         }
                         userTickets={entrant?.tickets}
                     />
-                    <div className={classes.spacer} />
-                    <Typography variant="overline">Prizes</Typography>
-                    <PrizeGalleryOngoing
-                        raffle={raffle}
-                        scrollRef={prizeGalleryRef}
-                    />
-                    <div className={classes.spacer} />
-                    {draffleClient.provider.wallet.publicKey ? (
-                        <PurchaseTickets
-                            raffle={raffle}
-                            updateRaffle={updateRaffle}
-                        />
-                    ) : (
-                        <ConnectActionSection />
-                    )}
-                    <div className={classes.spacer} />
-                </>
-            ) : (
-                <>
-                    <div className={classes.topSection}>
-                        <div className={classes.raffleTitle}>
-                            {/* <div className={classes.leftTitleSection}>
-                <IconButton
-                  size="medium"
-                  className={classes.backButton}
-                  onClick={() => push(routes.RAFFLES)}
-                >
-                  <ArrowBack />
-                </IconButton>
-              </div> */}
-                            <Typography variant="h1">
-                                Degen DAOO Raffle
-                            </Typography>
-                        </div>
-                        <div className={classes.raffleSubtitle}>
-                            <Typography variant="body1">
-                                In an effort to support the daoo treasure, we
-                                are raffling an ape!
-                            </Typography>
-                        </div>
-                        {/* <div className={classes.countdown}>
-                            <Countdown
-                                endTimestamp={raffle.endTimestamp}
-                                spacing={'5%'}
-                            />
-                        </div> */}
-                    </div>
-                    <div className={classes.mainContent}>
-                        <div className={classes.prizesSection}>
-                            <PrizeShowcaseOngoing prizes={raffle.prizes} />
-                        </div>
-                        <div className={classes.detailsSection}>
-                            <RaffleInfoSection
-                                raffle={raffle}
-                                userConnected={
-                                    !!draffleClient.provider.wallet.publicKey
-                                }
-                                userTickets={entrant?.tickets}
-                            />
-                            <div className={classes.actionSectionContainer}>
-                                {draffleClient.provider.wallet.publicKey ? (
-                                    <PurchaseTickets
-                                        raffle={raffle}
-                                        updateRaffle={updateRaffle}
-                                    />
-                                ) : (
-                                    <ConnectActionSection />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    {raffle.prizes.length > 3 && (
-                        <>
-                            <DoubleArrow className={classes.scrollIcon} />
-                            <PrizeGalleryOngoing
-                                raffle={raffle}
-                                scrollRef={prizeGalleryRef}
-                            />
-                        </>
-                    )}
-                </>
-            )}
+                </div>
+            </div>
+            <QuestionContent />
         </div>
     )
 }
@@ -154,21 +100,26 @@ const ConnectActionSection: FC = () => {
 
     return (
         <div className={classes.actionSection}>
-            <div className={classes.actionSectionInner}>
+            <div className={classes.actionItems}>
                 <div className={classes.actionTagline}>
-                    <Typography variant="h3" className={classes.textHighlight}>
-                        Tickets are still available.
-                    </Typography>
-                    <Typography variant="body1">Don't miss out!</Typography>
+                    <Typography variant="h3">Purchase Tickets</Typography>
                 </div>
                 <WalletMultiButton
                     variant="outlined"
                     color="secondary"
-                    className={`${classes.mainButton} ${classes.connectToBuyButton}`}
+                    className={` ${classes.connectToBuyButton}`}
                 >
-                    Connect to buy
+                    Connect Wallet
+                    <img
+                        src={flameIcon}
+                        alt="flame icon"
+                        style={{ marginLeft: 4 }}
+                        className={classes.flameIcon}
+                    />
                 </WalletMultiButton>
+                {/* <WalletDisconnectButton /> */}
             </div>
+            <img src={DaooLogo} alt="DAOO Logo" />
         </div>
     )
 }

@@ -7,6 +7,8 @@ export const useStyles = makeStyles<Theme, { device: DeviceType }>(
         root: ({ device }) => ({
             height: device === DeviceType.Phone ? '25vw' : '445px',
             width: device === DeviceType.Phone ? '100%' : '445px',
+            backgroundColor: theme.palette.background.paper,
+
             position: 'relative',
             cursor: 'pointer',
             '&:hover': {

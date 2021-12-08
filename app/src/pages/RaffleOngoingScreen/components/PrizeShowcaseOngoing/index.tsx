@@ -18,21 +18,14 @@ export const PrizeShowcase: FC<PrizeShowcaseProps> = ({ prizes }) => {
 
     // if (prizes.length === 1)
     return (
-        <div className={classes.root}>
-            <Grid
-                container
-                justifyContent={'space-evenly'}
-                direction={'row'}
-                className={classes.prizesGrid}
-            >
-                <Grid item>
-                    <PrizeCardOngoing
-                        prize={prizes[0]}
-                        className={classes.prizeItem}
-                    />
-                </Grid>
+        <Grid container direction={'row'} className={classes.prizesGrid}>
+            <Grid item>
+                <PrizeCardOngoing
+                    prize={prizes[0]}
+                    className={classes.prizeItem}
+                />
             </Grid>
-        </div>
+        </Grid>
     )
 
     // if (prizes.length === 2)
