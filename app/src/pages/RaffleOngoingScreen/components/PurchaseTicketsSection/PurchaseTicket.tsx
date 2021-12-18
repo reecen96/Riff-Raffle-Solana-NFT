@@ -223,18 +223,7 @@ export const PurchaseTickets: FC<PurchaseTicketsProps> = ({
               } // We ignore the potential wSOL ATA
             : buyerATABalance
     }, [walletLamports, buyerATABalance, paymentOption.mint.publicKey])
-    console.log(
-        'buyerTokenBalance.amount',
-        (buyerTokenBalance.amount || new u64(0)).toNumber() / LAMPORTS_PER_SOL
-    )
-    console.log(
-        'other',
-        getDisplayAmount(
-            buyerTokenBalance.amount || new u64(0),
-            paymentOption.mint
-        )
-    )
-    console.log('another one', (walletLamports || 0) / LAMPORTS_PER_SOL)
+
     const hasEnoughFunds = useMemo(() => {
         const tokensEnough = buyerTokenBalance.amount?.gte(
             getBasketPrice(ticketAmount)
