@@ -19,8 +19,8 @@ export const useStyles = makeStyles<Theme, { device: DeviceType }>(
             // flexGrow: 1,
         },
         actionItems: {
-            padding: '8px 0',
             height: '100%',
+            padding: '8px 0',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
@@ -118,10 +118,11 @@ export const useStyles = makeStyles<Theme, { device: DeviceType }>(
         }),
         actionSectionContainer: {
             // padding: '20px 0 20px 0',
+            height: '230px',
         },
 
         connectToBuyButton: {
-            width: '187px',
+            width: '100%',
             height: '50px',
             color: theme.palette.common.black,
             border: 'none',

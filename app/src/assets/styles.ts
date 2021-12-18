@@ -13,15 +13,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
     actionSection: {
         padding: '16px 24px',
-        height: '200px',
         backgroundColor: '#111827',
         boxShadow: '0 2px 4px 0 #000',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         borderRadius: '16px',
         margin: '0px 8px',
+        height: '100%',
     },
 
     mainButton: {

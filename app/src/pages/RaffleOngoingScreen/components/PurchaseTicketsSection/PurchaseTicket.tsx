@@ -19,11 +19,10 @@ import { u64 } from '@solana/spl-token'
 import toast from 'react-hot-toast'
 import {
     AddBoxRounded,
-    AddCircleOutline,
+    AddCircleOutlined,
     IndeterminateCheckBoxRounded,
-    RemoveCircleOutline,
+    RemoveCircleOutlined,
 } from '@material-ui/icons'
-
 import { MAX_NUMBER_OF_PARTICIPANTS } from '../../../../config/misc'
 import {
     buyTickets,
@@ -42,10 +41,12 @@ import { tokenInfoMap, wrappedSOL } from '../../../../config/tokenRegistry'
 import { useProgramApis } from '../../../../hooks/useProgramApis'
 import { useStyles } from './styles'
 import { DispenserRegistryRaw } from '../../../../providers/ProgramApisProvider'
-import { PublicKey } from '@solana/web3.js'
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 import ShortenedString from '../../../../components/ShortenedString'
+import { WalletDisconnectButton } from '@solana/wallet-adapter-material-ui'
+import TrashPanda from '../../../../assets/trashpanda.png'
 
-const MAX_TICKET_AMOUNT = 1000
+const MAX_TICKET_AMOUNT = 999
 
 const isLamportsEnough = (lamports: number | undefined) =>
     (lamports ?? 0) >= BUY_TICKETS_TX_FEE_LAMPORTS
@@ -69,6 +70,7 @@ export const PurchaseTickets: FC<PurchaseTicketsProps> = ({
 
     const [purchaseOngoing, setPurchaseOngoing] = useState(false)
     const [walletLamports, setWalletLamports] = useState<number>()
+    const [buyButtonHovered, setBuyButtonHovered] = useState(false)
     // const [ticketPrice, setTicketPrice] = useState<PaymentOption>({
     //   mint: raffle.proceeds.mint,
     //   price: raffle.proceeds.ticketPrice,
@@ -221,7 +223,18 @@ export const PurchaseTickets: FC<PurchaseTicketsProps> = ({
               } // We ignore the potential wSOL ATA
             : buyerATABalance
     }, [walletLamports, buyerATABalance, paymentOption.mint.publicKey])
-
+    console.log(
+        'buyerTokenBalance.amount',
+        (buyerTokenBalance.amount || new u64(0)).toNumber() / LAMPORTS_PER_SOL
+    )
+    console.log(
+        'other',
+        getDisplayAmount(
+            buyerTokenBalance.amount || new u64(0),
+            paymentOption.mint
+        )
+    )
+    console.log('another one', (walletLamports || 0) / LAMPORTS_PER_SOL)
     const hasEnoughFunds = useMemo(() => {
         const tokensEnough = buyerTokenBalance.amount?.gte(
             getBasketPrice(ticketAmount)
@@ -301,53 +314,46 @@ export const PurchaseTickets: FC<PurchaseTicketsProps> = ({
     ) => setPaymentOption(paymentOptions.get(event.target.value as string)!)
 
     return (
-        <div className={`${classes.actionSection} ${classes.root}`}>
-            <Typography variant="h2" className={classes.titleSection}>
-                Purchase Tickets
-            </Typography>
-            <div className={classes.amountLabel}>
-                <Typography variant="overline">Amount</Typography>
-            </div>
-            <div className={classes.ticketAmountSection}>
-                <div className={classes.ticketAmountSectionLeft}>
-                    <IconButton
-                        size="small"
-                        onClick={() =>
-                            setTicketAmount((currentAmount) =>
-                                Math.max(currentAmount - 1, 1)
-                            )
-                        }
-                        disabled={ticketAmount <= 1}
-                        className={classes.changeTicketAmountButton}
-                    >
-                        <IndeterminateCheckBoxRounded
-                            style={{ fontSize: 30 }}
-                        />
-                    </IconButton>
-                </div>
-                <div className={classes.ticketAmountSectionMiddle}>
-                    <TextField
-                        size="small"
-                        variant="outlined"
-                        className={classes.ticketAmountTextField}
-                        value={ticketAmount}
-                        onChange={(event) => {
-                            const newValue = event.target.value
-                            const re = /^[0-9\b]+$/
-                            if (newValue !== '' && !re.test(newValue)) return
+        <div
+            className={`${classes.actionSection} ${classes.root}`}
+            style={{ position: 'relative' }}
+        >
+            <img
+                src={TrashPanda}
+                alt="Trash Panda"
+                style={{
+                    position: 'absolute',
+                    left: `${buyButtonHovered ? '432px' : '332px'}`,
+                    top: '-40px',
+                    transition: 'all 0.5s ease',
+                    zIndex: '-1',
+                }}
+            />
 
-                            let numericValue = Math.min(
-                                Math.min(
-                                    Number(newValue),
-                                    MAX_TICKET_AMOUNT - raffle.totalTickets
-                                ),
-                                maxTicketsToBuyable.toNumber()
-                            )
-
-                            setTicketAmount(numericValue)
-                        }}
-                        InputProps={{
-                            endAdornment: (
+            <div className={classes.purchaseTicketsSection}>
+                <Typography variant="h3" className={classes.titleSection}>
+                    Purchase Tickets
+                </Typography>
+                <div className={classes.priceSection}>
+                    <div className={classes.paymentOptionSection}>
+                        <div className={classes.basketPrice}>
+                            <Typography
+                                variant="caption"
+                                style={{ color: '#9CA3AF' }}
+                            >
+                                TOTAL PRICE
+                            </Typography>
+                            <div className={classes.totalPriceContainer}>
+                                <Typography
+                                    variant="h4"
+                                    style={{ color: 'white' }}
+                                >
+                                    {getDisplayAmount(
+                                        getBasketPrice(ticketAmount),
+                                        paymentOption.mint
+                                    )}
+                                    ◎
+                                </Typography>
                                 <Button
                                     size="small"
                                     variant="text"
@@ -364,168 +370,20 @@ export const PurchaseTickets: FC<PurchaseTicketsProps> = ({
                                 >
                                     MAX
                                 </Button>
-                            ),
-                            startAdornment: (
-                                <Button
-                                    size="small"
-                                    variant="text"
-                                    disableRipple
-                                    className={classes.maxButton}
-                                    onClick={() => setTicketAmount(1)}
-                                >
-                                    MIN
-                                </Button>
-                            ),
-                        }}
-                    />
-                </div>
-                <div className={classes.ticketAmountSectionRight}>
-                    <IconButton
-                        size="small"
-                        onClick={() =>
-                            setTicketAmount(
-                                (currentAmount) => currentAmount + 1
-                            )
-                        }
-                        disabled={
-                            raffle.totalTickets + ticketAmount >=
-                                MAX_NUMBER_OF_PARTICIPANTS ||
-                            !hasEnoughFundsToIncrementTicket ||
-                            ticketAmount + 1 >
-                                MAX_TICKET_AMOUNT - raffle.totalTickets
-                        }
-                        className={classes.changeTicketAmountButton}
-                    >
-                        <AddBoxRounded style={{ fontSize: 30 }} />
-                    </IconButton>
-                </div>
-            </div>
-            <div className={classes.priceSection}>
-                <div className={classes.paymentOptionSection}>
-                    <div className={classes.basketPrice}>
-                        <Typography variant="overline">Total Price</Typography>
-                        <div
-                            style={{
-                                height: '100%',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Typography variant="h4">
-                                {getDisplayAmount(
-                                    getBasketPrice(ticketAmount),
-                                    paymentOption.mint
-                                )}
-                            </Typography>
+                            </div>
                         </div>
                     </div>
-                    <div className={classes.basketPrice}>
-                        <Typography variant="overline">Currency</Typography>
-                        {paymentOptions.size === 1 ? (
-                            <div className={classes.paymentOptionSelection}>
-                                <Typography variant="h4">
-                                    {raffle.proceeds.mint.symbol}
-                                </Typography>
-                                <div
-                                    className={
-                                        classes.paymentOptionLogoContainer
-                                    }
-                                >
-                                    <img
-                                        className={classes.paymentOptionLogo}
-                                        src={raffle.proceeds.mint.logoUrl}
-                                        alt={`Logo for ${raffle.proceeds.mint.name}`}
-                                    />
-                                </div>
-                            </div>
-                        ) : (
-                            <Select
-                                variant="standard"
-                                label="Purchase mint"
-                                value={paymentOption.mint.publicKey.toString()}
-                                onChange={onSelectPurchaseMint}
-                                className={classes.paymentOptionSelect}
-                                MenuProps={{
-                                    disableScrollLock: true,
-                                }}
-                                renderValue={(optionKey) => {
-                                    const option = paymentOptions.get(
-                                        optionKey as string
-                                    )!
-                                    return (
-                                        <div
-                                            className={
-                                                classes.paymentOptionSelection
-                                            }
-                                        >
-                                            <Typography variant="h4">
-                                                {option.mint.symbol}
-                                            </Typography>
-                                            <div
-                                                className={
-                                                    classes.paymentOptionLogoContainer
-                                                }
-                                            >
-                                                <img
-                                                    className={
-                                                        classes.paymentOptionLogo
-                                                    }
-                                                    src={option.mint.logoUrl}
-                                                    alt={`Logo for ${option.mint.name}`}
-                                                />
-                                            </div>
-                                        </div>
-                                    )
-                                }}
-                            >
-                                <MenuItem value="" disabled>
-                                    Select purchase currency
-                                </MenuItem>
-                                {[...paymentOptions.values()].map(
-                                    ({ mint }) => {
-                                        return (
-                                            <MenuItem
-                                                key={mint.publicKey.toString()}
-                                                value={mint.publicKey.toString()}
-                                                classes={{
-                                                    root: classes.paymentOptionMenu,
-                                                }}
-                                            >
-                                                <div
-                                                    className={
-                                                        classes.paymentOptionLogoContainer
-                                                    }
-                                                >
-                                                    <img
-                                                        className={
-                                                            classes.paymentOptionLogo
-                                                        }
-                                                        src={mint.logoUrl}
-                                                        alt={`Logo for ${mint.name}`}
-                                                    />
-                                                </div>
-                                                <Typography variant="body1">
-                                                    <ShortenedString
-                                                        message={mint.name}
-                                                        maxCharLength={12}
-                                                    />
-                                                    {` (${mint.symbol})`}
-                                                </Typography>
-                                            </MenuItem>
-                                        )
-                                    }
-                                )}
-                            </Select>
-                        )}
-                    </div>
                 </div>
-            </div>
-            <div className={classes.buySection}>
                 <Button
                     variant="contained"
-                    className={classes.mainButton}
+                    className={classes.purchaseTicketsButton}
                     onClick={onBuyTickets}
+                    onMouseEnter={() => {
+                        setBuyButtonHovered(true)
+                    }}
+                    onMouseLeave={() => {
+                        setBuyButtonHovered(false)
+                    }}
                     disabled={
                         ticketAmount === 0 ||
                         raffle.totalTickets + ticketAmount >
@@ -562,22 +420,89 @@ export const PurchaseTickets: FC<PurchaseTicketsProps> = ({
                             </>
                         ) : (
                             <>
-                                Buy ticket{' '}
-                                {!lamportsEnough && '(Insufficient SOL)'}
+                                Buy tickets{' '}
+                                {/* {!lamportsEnough && '(Insufficient SOL)'} // commenting for now because it causes unwanted layoutshift upon load*/}
                             </>
                         )}
                     </div>
                 </Button>
-                <div className={classes.walletBalance}>
-                    Wallet balance:{' '}
-                    {buyerTokenBalance
-                        ? getDisplayAmount(
-                              buyerTokenBalance.amount || new u64(0),
-                              paymentOption.mint
-                          )
-                        : 0}{' '}
-                    {paymentOption.mint.symbol}
+            </div>
+            <div className={classes.ticketAmountSelectSection}>
+                <TextField
+                    variant="outlined"
+                    className={classes.ticketAmountTextField}
+                    value={ticketAmount}
+                    onChange={(event) => {
+                        const newValue = event.target.value
+                        const re = /^[0-9\b]+$/
+                        if (newValue !== '' && !re.test(newValue)) return
+
+                        let numericValue = Math.min(
+                            Math.min(
+                                Number(newValue),
+                                MAX_TICKET_AMOUNT - raffle.totalTickets
+                            ),
+                            maxTicketsToBuyable.toNumber()
+                        )
+
+                        setTicketAmount(numericValue)
+                    }}
+                    InputProps={{
+                        endAdornment: (
+                            <IconButton
+                                size="small"
+                                onClick={() =>
+                                    setTicketAmount(
+                                        (currentAmount) => currentAmount + 1
+                                    )
+                                }
+                                disabled={
+                                    raffle.totalTickets + ticketAmount >=
+                                        MAX_NUMBER_OF_PARTICIPANTS ||
+                                    !hasEnoughFundsToIncrementTicket ||
+                                    ticketAmount + 1 >
+                                        MAX_TICKET_AMOUNT - raffle.totalTickets
+                                }
+                                className={classes.changeTicketAmountButton}
+                            >
+                                <AddCircleOutlined style={{ fontSize: 30 }} />
+                            </IconButton>
+                        ),
+                        startAdornment: (
+                            <IconButton
+                                size="small"
+                                onClick={() =>
+                                    setTicketAmount((currentAmount) =>
+                                        Math.max(currentAmount - 1, 1)
+                                    )
+                                }
+                                disabled={ticketAmount <= 1}
+                                className={classes.changeTicketAmountButton}
+                            >
+                                <RemoveCircleOutlined
+                                    style={{ fontSize: 30 }}
+                                />
+                            </IconButton>
+                        ),
+                    }}
+                />
+                <div className={classes.ticketSubHeader}>
+                    <Typography variant="body1">TICKETS</Typography>
                 </div>
+                <div>
+                    <Typography variant="body2">
+                        Wallet balance{' '}
+                        {((walletLamports || 0) / LAMPORTS_PER_SOL).toFixed(2)}{' '}
+                        {paymentOption.mint.symbol}
+                    </Typography>
+                </div>
+                <WalletDisconnectButton
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.walletDisconnectButton}
+                >
+                    Disconnect Wallet
+                </WalletDisconnectButton>
             </div>
         </div>
     )

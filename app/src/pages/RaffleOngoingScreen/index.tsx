@@ -117,7 +117,6 @@ const ConnectActionSection: FC = () => {
                         className={classes.flameIcon}
                     />
                 </WalletMultiButton>
-                {/* <WalletDisconnectButton /> */}
             </div>
             <img src={DaooLogo} alt="DAOO Logo" />
         </div>
