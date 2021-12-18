@@ -33,7 +33,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
 
     changeTicketAmountButton: {
-        color: theme.palette.primary.main,
+        color: '#1D4ED8',
         zIndex: 1,
     },
     ticketAmountTextField: {
@@ -42,11 +42,8 @@ export const useStyles = makeStyles((theme: Theme) => ({
             backgroundColor: '#374151',
             borderRadius: '16px 16px 0px 0px',
             border: 'none',
-            // borderColor: theme.palette.primary.main,
         },
-        '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-            // borderColor: theme.palette.primary.main,
-        },
+        '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {},
         '& .MuiOutlinedInput-input': {
             color: theme.palette.common.white,
             textAlign: 'center',
@@ -72,13 +69,15 @@ export const useStyles = makeStyles((theme: Theme) => ({
         width: '100%',
     },
     maxButton: {
-        color: theme.palette.primary.main,
-        fontSize: '15px',
-        width: '30px',
-        minWidth: '30px',
-        padding: 0,
+        color: '#6B7280',
+        fontSize: '14px',
+        // width: '30px',
+        minWidth: '50px',
+        backgroundColor: '#000',
+        borderRadius: '8px',
+        padding: '0px 0px',
         '&:hover': {
-            backgroundColor: 'transparent',
+            // backgroundColor: 'transparent',
         },
     },
 
@@ -168,14 +167,14 @@ export const useStyles = makeStyles((theme: Theme) => ({
         justifyContent: 'center',
     },
     purchaseTicketsButton: {
-        width: '187px',
+        width: '100%',
         height: '50px',
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: '#BFDBFE',
         borderColor: theme.palette.primary.main,
-        color: theme.palette.common.white,
+        color: theme.palette.common.black,
         '&:hover': {
-            backgroundColor: darken(theme.palette.primary.main, 0.2),
-            borderColor: darken(theme.palette.primary.main, 0.2),
+            backgroundColor: darken('#BFDBFE', 0.2),
+            borderColor: darken('#BFDBFE', 0.2),
         },
         '&:disabled': {
             backgroundColor: '#393939',
