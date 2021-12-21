@@ -131,6 +131,11 @@ export const useStyles = makeStyles<Theme, { device: DeviceType }>(
             '&:hover': {
                 backgroundColor: '#8fd9fb',
             },
+            '&:disabled': {
+                backgroundColor: theme.palette.common.white,
+                opacity: 0.3,
+                color: theme.palette.common.black,
+            },
         },
         scrollIcon: {
             color: theme.palette.common.white,

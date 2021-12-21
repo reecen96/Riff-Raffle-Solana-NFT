@@ -409,7 +409,7 @@ export const PurchaseTickets: FC<PurchaseTicketsProps> = ({
                             </>
                         ) : (
                             <>
-                                Buy tickets{' '}
+                                Buy tickets
                                 {/* {!lamportsEnough && '(Insufficient SOL)'} // commenting for now because it causes unwanted layoutshift upon load*/}
                             </>
                         )}
