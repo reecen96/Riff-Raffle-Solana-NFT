@@ -8,6 +8,16 @@ ROOT_PATH="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )/../"
 
 ${SCRIPT_PATH}/setup_idls.sh
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    cdate=date
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    # Mac OSX uses gnu date for args to be compatible
+    cdate=gdate
+else
+    echo "OS not supported"
+    exit 1
+fi
+
 set -m
 DRAFFLE_PROGRAM_ID="$(solana address -k ${SCRIPT_PATH}/sample_accounts/draffle-keypair.json)"
 COMMUNITY_STAKING_PROGRAM_ID="$(solana address -k ${SCRIPT_PATH}/sample_accounts/community_staking-keypair.json)"
@@ -100,20 +110,20 @@ echo "Done"
 echo "Creating sample raffles..."
 cd ${ROOT_PATH}
 cargo build
-${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 500000 "$(date --utc -d "+2 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants1-keypair.json" # AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr
+${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 500000 "$("$cdate" --utc -d "+2 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants1-keypair.json" # AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr
 ${SCRIPT_PATH}/../target/debug/draffle add-prize AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr ${MINT2_ADDRESS} 25 0
 ${SCRIPT_PATH}/../target/debug/draffle add-prize AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr ${NFT1_ADDRESS} 1 1
 ${SCRIPT_PATH}/../target/debug/draffle add-prize AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr ${MINT3_ADDRESS} 334 2
 ${SCRIPT_PATH}/../target/debug/draffle add-prize AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr ${NFT4_ADDRESS} 1 3
 ${SCRIPT_PATH}/../target/debug/draffle add-prize AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr ${MINT3_ADDRESS} 12300 4
-${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 200000 "$(date --utc -d "-1 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants2-keypair.json" # 4SM7QuwpV8zmtGEih1uxKnzm4W7E4VAcRdmKjZjmq8ah
-${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 1000000 "$(date --utc -d "+5 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants3-keypair.json" # 3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj
+${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 200000 "$("$cdate" --utc -d "-1 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants2-keypair.json" # 4SM7QuwpV8zmtGEih1uxKnzm4W7E4VAcRdmKjZjmq8ah
+${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 1000000 "$("$cdate" --utc -d "+5 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants3-keypair.json" # 3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj ${MINT2_ADDRESS} 25 0
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj ${NFT2_ADDRESS} 1 1
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj ${MINT1_ADDRESS} 30100000 2
-${SCRIPT_PATH}/../target/debug/draffle create-raffle ${WSOL} 200000000 "$(date --utc -d "+10 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants4-keypair.json" # 2mrwjEz67DXTWKaVPjWwkwVPtGRWyKrTeyK5VzintsC5
+${SCRIPT_PATH}/../target/debug/draffle create-raffle ${WSOL} 200000000 "$("$cdate" --utc -d "+10 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants4-keypair.json" # 2mrwjEz67DXTWKaVPjWwkwVPtGRWyKrTeyK5VzintsC5
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 2mrwjEz67DXTWKaVPjWwkwVPtGRWyKrTeyK5VzintsC5 ${NFT5_ADDRESS} 1 0
-${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 200000 "$(date --utc -d "+1 day" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants5-keypair.json" # 9FoUjfUpWwhHYaGKM9G5eYab7qow3oWqdo2G5Ehj3h5L
+${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 200000 "$("$cdate" --utc -d "+1 day" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants5-keypair.json" # 9FoUjfUpWwhHYaGKM9G5eYab7qow3oWqdo2G5Ehj3h5L
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 9FoUjfUpWwhHYaGKM9G5eYab7qow3oWqdo2G5Ehj3h5L ${MINT3_ADDRESS} 25 0
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 9FoUjfUpWwhHYaGKM9G5eYab7qow3oWqdo2G5Ehj3h5L ${MINT2_ADDRESS} 88 1
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 9FoUjfUpWwhHYaGKM9G5eYab7qow3oWqdo2G5Ehj3h5L ${NFT3_ADDRESS} 1 2
