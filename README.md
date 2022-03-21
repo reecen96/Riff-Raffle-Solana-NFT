@@ -42,6 +42,17 @@ If you see something missing - please submit a PR 🙏
   ([docs](https://docs.metaplex.com/candy-machine-v2/introduction)) - simple program (to use, not to build!) that issues a fixed number of NFTs at a fixed price, first come first serve. If Metaplex itself has too many knobs for you to think about, consider the Candy Machine instead.
 - A number of "managed" launch services exist: [Nova Launch](https://novalaunch.art/), [CrayonCreed](https://crayoncreed.com/). We've not tried and are not promoting either:)
 
+## 🤝 DAO
+
+- [Realms.today](https://realms.today/)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - DAO smart contract built by the Solana core team. Wizard to create either a multiset (Simple) or Bespoke (Technical) DAO
+
+- [Token update](https://github.com/solana-labs/token-list)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - The community maintained Solana token registry. Submit a pull request to update token metadata (ie token image, name, tags, description)
+
+- [DAO update](https://github.com/solana-labs/governance-ui)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - The community maintained Solana token registry. Submit a pull request to update token metadata (ie token image, name, tags, description)
+
 ## 🏦 Vaults
 
 - [Token Vault](https://github.com/metaplex-foundation/metaplex-program-library/tree/master/token-vault)
