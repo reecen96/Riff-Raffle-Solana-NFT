@@ -58,7 +58,7 @@ If you see something missing - please submit a PR 🙏
 - [Moralis](https://docs.moralis.io/introduction/readme)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Makes Blockchain API calls easy! Moralis provides managed backend for blockchain projects. Automatically syncing the balances of your users into the database
 
-  ## 🪙 Tokenomics
+## 🪙 Tokenomics
 
 - [Raydium](https://raydium.io/liquidity/create/)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Raydium is a decentralised exchanged. Allows you to create a Liquidity pool to trade your SPL-token. Currently, only token pairs that contain the following Quote Tokens are supported: SOL, RAY, SRM, USDC, USDT
