@@ -53,6 +53,19 @@ If you see something missing - please submit a PR 🙏
 - [DAO update](https://github.com/solana-labs/governance-ui)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - The community maintained Solana token registry. Submit a pull request to update token metadata (ie token image, name, tags, description)
 
+  ## 📉 Solana API
+
+- [Moralis](https://docs.moralis.io/introduction/readme)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Makes Blockchain API calls easy! Moralis provides managed backend for blockchain projects. Automatically syncing the balances of your users into the database
+
+  ## 🪙 Tokenomics
+
+- [Raydium](https://raydium.io/liquidity/create/)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Raydium is a decentralised exchanged. Allows you to create a Liquidity pool to trade your SPL-token. Currently, only token pairs that contain the following Quote Tokens are supported: SOL, RAY, SRM, USDC, USDT
+
+- [Serum](https://docs.projectserum.com/serum-ecosystem/build-on-serum/add-a-market-on-serum-serum-academy)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - A decentralised open source DEX - built by the serum foundation. Serum is used to create a market used by Raydium to create a SPL-token liquidity pool
+
 ## 🏦 Vaults
 
 - [Token Vault](https://github.com/metaplex-foundation/metaplex-program-library/tree/master/token-vault)
