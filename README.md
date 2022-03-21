@@ -53,7 +53,7 @@ If you see something missing - please submit a PR 🙏
 - [DAO update](https://github.com/solana-labs/governance-ui)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - The community maintained Solana token registry. Submit a pull request to update token metadata (ie token image, name, tags, description)
 
-  ## 📉 Solana API
+## 📉 Solana API
 
 - [Moralis](https://docs.moralis.io/introduction/readme)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Makes Blockchain API calls easy! Moralis provides managed backend for blockchain projects. Automatically syncing the balances of your users into the database
