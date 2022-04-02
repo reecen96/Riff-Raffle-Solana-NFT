@@ -38,10 +38,22 @@ Deploying program "draffle"...
 Program path: /Users/nagy/Files/CryptoCoders/draffle/target/deploy/draffle.so...
 Program Id: 5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1
 
-Deploying program "dispenser"...
-Program path: /Users/nagy/Files/CryptoCoders/draffle/target/deploy/dispenser.so...
-Program Id: 56zQMVdReF9VTm4E2gqXPC7Z44Rqq5YsSUHVeKGhPYVv
+### Show raffle
+```
+${SCRIPT_PATH}/../target/debug/draffle show-raffle \
+    8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw \
+    --provider.cluster devnet
+```
 
-Deploying program "community-staking"...
-Program path: /Users/nagy/Files/CryptoCoders/draffle/target/deploy/community_staking.so...
-Program Id: Af1FcsjwEmJQ9E1nKhsDmFMvvE8wjrLW3FRAXjzCAaMR
+Output:
+```
+Raffle {
+    creator: 3Xaq71yEsJzyXmvwPf3fd7DywMULQvc2zYcRejDsdfQ8, # cc-draffle-deploy-keypair.json
+    total_prizes: 1,
+    claimed_prizes: 0,
+    randomness: None,
+    end_timestamp: 1649115300,
+    ticket_price: 500000,
+    entrants: ASrAJ8vqeLHscGMuGkyAuS85xYhM4Tj1GVjnP8Hq1jwp,
+}
+```

@@ -1,6 +1,6 @@
 echo "------------------\n"
-export SCRIPT_PATH="/Users/nagy/Files/CryptoCoders/draffle/scripts"
-export ROOT_PATH="/Users/nagy/Files/CryptoCoders/draffle"
+export SCRIPT_PATH="/Users/nagy/Files/CryptoCoders/draffle/scripts" # FIXME CHANGE PATH
+export ROOT_PATH="/Users/nagy/Files/CryptoCoders/draffle" # FIXME CHANGE PATH
 echo "\nSCRIPT PATH:"
 echo $SCRIPT_PATH
 
@@ -15,20 +15,21 @@ echo "------------------\n"
 
 ##############################
 DRAFFLE_PROGRAM_ID="$(solana address -k ${SCRIPT_PATH}/../target/deploy/draffle-keypair.json)"
-COMMUNITY_STAKING_PROGRAM_ID="$(solana address -k ${SCRIPT_PATH}/../target/deploy/community_staking-keypair.json)"
-DISPENSER_PROGRAM_ID="$(solana address -k ${SCRIPT_PATH}/../target/deploy/dispenser-keypair.json)"
+# COMMUNITY_STAKING_PROGRAM_ID="$(solana address -k ${SCRIPT_PATH}/../target/deploy/community_staking-keypair.json)"
+# DISPENSER_PROGRAM_ID="$(solana address -k ${SCRIPT_PATH}/../target/deploy/dispenser-keypair.json)"
 
 echo "\n-------------"
 echo "DRAFFLE PROGRAM ID"
 echo $DRAFFLE_PROGRAM_ID
-echo "COMMUNITY_STAKING_PROGRAM_ID"
-echo $COMMUNITY_STAKING_PROGRAM_ID
-echo "DISPENSER_PROGRAM_ID"
-echo $DISPENSER_PROGRAM_ID
+# echo "COMMUNITY_STAKING_PROGRAM_ID"
+# echo $COMMUNITY_STAKING_PROGRAM_ID
+# echo "DISPENSER_PROGRAM_ID"
+# echo $DISPENSER_PROGRAM_ID
 
 ##############################
 echo "Setting cluster to localnet..."
-solana config set --url http://127.0.0.1:8899
+# solana config set --url http://127.0.0.1:8899
+solana config set --url https://api.devnet.solana.com
 echo "Done"
 
 ##############################
@@ -63,21 +64,21 @@ spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json --
 spl-token create-account ${NFT1_ADDRESS}
 spl-token mint ${NFT1_ADDRESS} 1
 
-spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft2-keypair.json --decimals 0
-spl-token create-account ${NFT2_ADDRESS}
-spl-token mint ${NFT2_ADDRESS} 1
+# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft2-keypair.json --decimals 0
+# spl-token create-account ${NFT2_ADDRESS}
+# spl-token mint ${NFT2_ADDRESS} 1
 
-spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft3-keypair.json --decimals 0
-spl-token create-account ${NFT3_ADDRESS}
-spl-token mint ${NFT3_ADDRESS} 1
+# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft3-keypair.json --decimals 0
+# spl-token create-account ${NFT3_ADDRESS}
+# spl-token mint ${NFT3_ADDRESS} 1
 
-spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft4-keypair.json --decimals 0
-spl-token create-account ${NFT4_ADDRESS}
-spl-token mint ${NFT4_ADDRESS} 1
+# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft4-keypair.json --decimals 0
+# spl-token create-account ${NFT4_ADDRESS}
+# spl-token mint ${NFT4_ADDRESS} 1
 
-spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft5-keypair.json --decimals 0
-spl-token create-account ${NFT5_ADDRESS}
-spl-token mint ${NFT5_ADDRESS} 1
+# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft5-keypair.json --decimals 0
+# spl-token create-account ${NFT5_ADDRESS}
+# spl-token mint ${NFT5_ADDRESS} 1
 
 spl-token create-token ${SCRIPT_PATH}/sample_accounts/dev-mint-keypair.json --decimals 6
 spl-token create-account ${MINT1_ADDRESS}
@@ -87,13 +88,14 @@ spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-mint1-keypair.json -
 spl-token create-account ${MINT2_ADDRESS}
 spl-token mint ${MINT2_ADDRESS} 30000
 
-spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-mint2-keypair.json --decimals 2
-spl-token create-account ${MINT3_ADDRESS}
-spl-token mint ${MINT3_ADDRESS} 30000
+# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-mint2-keypair.json --decimals 2
+# spl-token create-account ${MINT3_ADDRESS}
+# spl-token mint ${MINT3_ADDRESS} 30000
 
-solana airdrop 10000
-solana transfer --allow-unfunded-recipient ${TEST_USER_ADDRESS} 0.1
-solana transfer --allow-unfunded-recipient ${MINT1_FAUCET_ADDRESS} 5
+## on devnet do this manually
+# solana airdrop 10000
+# solana transfer --allow-unfunded-recipient ${TEST_USER_ADDRESS} 0.1
+# solana transfer --allow-unfunded-recipient ${MINT1_FAUCET_ADDRESS} 2
 
 spl-token transfer --allow-unfunded-recipient --fund-recipient  ${MINT1_ADDRESS} 3 ${TEST_USER_ADDRESS}
 spl-token transfer --allow-unfunded-recipient --fund-recipient  ${MINT1_ADDRESS} 3 ${MINT1_FAUCET_ADDRESS}
@@ -103,13 +105,19 @@ echo "Done"
 echo "Creating sample raffles..."
 cd ${ROOT_PATH}
 cargo build
-# target/debug/draffle create-raffle ${MINT1_ADDRESS} 500000 "2022-04-02 23:35" /Users/nagy/Files/CryptoCoders/draffle/scripts/sample_accounts/raffle/entrants1-keypair.json
+
+## This raffle address is live and deployed!! # 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw
+# target/debug/draffle create-raffle ${MINT1_ADDRESS} 500000 "2022-04-04 23:35" /Users/nagy/Files/CryptoCoders/draffle/scripts/sample_accounts/raffle/entrants1-keypair.json
 ${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 500000 "$(cdate --utc -d "+2 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants1-keypair.json" # BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE
-${SCRIPT_PATH}/../target/debug/draffle add-prize BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE ${MINT2_ADDRESS} 25 0 #####THIS FUCKING ERRORS OUT
-${SCRIPT_PATH}/../target/debug/draffle add-prize BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE ${NFT1_ADDRESS} 1 1
-${SCRIPT_PATH}/../target/debug/draffle add-prize BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE ${MINT3_ADDRESS} 334 2
-${SCRIPT_PATH}/../target/debug/draffle add-prize BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE ${NFT4_ADDRESS} 1 3
-${SCRIPT_PATH}/../target/debug/draffle add-prize BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE ${MINT3_ADDRESS} 12300 4
+${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${MINT2_ADDRESS} 25 0
+${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${NFT1_ADDRESS} 1 1
+${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${MINT3_ADDRESS} 334 2
+${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${NFT4_ADDRESS} 1 3
+${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${MINT3_ADDRESS} 12300 4
+
+### extra flags for CLI tool
+--provider.cluster devnet \
+--provider.wallet scripts/cc-draffle-deploy-keypair.json \
 
 ##############################
 echo "Creating sample NFT metadata with URLs REACT_APP_URL=${REACT_APP_URL} and REACT_APP_RPC_ENDPOINT=${REACT_APP_RPC_ENDPOINT}"

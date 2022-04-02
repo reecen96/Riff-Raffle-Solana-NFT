@@ -24,3 +24,16 @@ Reveal winners, preferably event driven right at the end of the raffle
 Collect proceeds of the raffle into token account 9u6RBuTGr4WGEVoFVcZtMW82nWKJrrDh5UNkBhFRq5Sr owned by operation-keypair.json
 
 `./target/debug/draffle collect-proceeds D45wu2y8EjetNwkCxVLqW3Rfk5oZWiuUvHhMavSjW3Uc 9u6RBuTGr4WGEVoFVcZtMW82nWKJrrDh5UNkBhFRq5Sr --provider.cluster mainnet --provider.wallet ../admin/keypairs/operation-keypair.json --program-id dRafA7ymQiLKjR5dmmdZC9RPX4EQUjqYFB3mWokRuDs`
+
+
+### CC CUSTOM
+```
+target/debug/draffle create-raffle \
+    ${MINT1_ADDRESS} \
+    500000 \
+    "2022-04-04 23:35" \
+    /Users/nagy/Files/CryptoCoders/draffle/scripts/sample_accounts/raffle/entrants1-keypair.json \
+    --provider.cluster devnet \
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json \
+    --program-id 5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1
+```
