@@ -29,3 +29,19 @@ When `start_dev.sh` is running the react app will show a set of test raffles wit
 - metaplex-token-metadata-test-client needs to be executable chmod +x scripts/metaplex-token-metadata-test-client, build it from source for other OSes than linux with [metaplex-program-library](https://github.com/metaplex-foundation/metaplex-program-library) using `cargo build --release`
 - install gdata on MacOS in order to be able to run start_dev.sh https://www.shell-tips.com/linux/how-to-format-date-and-time-in-linux-macos-and-bash/
 - To use your own deployment, create a new program keypair, update declare_id! in [programs/draffle/src/lib.rs](programs/draffle/src/lib.rs) and use the (cli commands)[cli/README.md] with your program id! Run the react app with `REACT_APP_DRAFFLE_PROGRAM_ID` set to your new program id.
+
+
+## CUSTOM - CC LOOK HERE
+### DRaffle program Deployed to devnet
+Upgrade authority: 
+Deploying program "draffle"...
+Program path: /Users/nagy/Files/CryptoCoders/draffle/target/deploy/draffle.so...
+Program Id: 5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1
+
+Deploying program "dispenser"...
+Program path: /Users/nagy/Files/CryptoCoders/draffle/target/deploy/dispenser.so...
+Program Id: 56zQMVdReF9VTm4E2gqXPC7Z44Rqq5YsSUHVeKGhPYVv
+
+Deploying program "community-staking"...
+Program path: /Users/nagy/Files/CryptoCoders/draffle/target/deploy/community_staking.so...
+Program Id: Af1FcsjwEmJQ9E1nKhsDmFMvvE8wjrLW3FRAXjzCAaMR

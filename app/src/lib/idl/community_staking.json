@@ -382,5 +382,8 @@
       "name": "ControllerDisabled",
       "msg": "Controller is disabled"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "3ivt8rm61aWKF3inePKS9DhgrxdCwpUJrWMdHHx86KUz"
+  }
 }

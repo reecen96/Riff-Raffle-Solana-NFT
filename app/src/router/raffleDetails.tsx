@@ -8,7 +8,8 @@ import { Raffle } from '../lib/types'
 
 const RaffleDetails: FC = () => {
     // const { id: raffleId } = useParams<{ id: string }>();
-    const raffleId = 'CjzFZfrMW4D1jZVm5upCobRi96UYnQTk5cescSt12rhV' //hardcode to APE RAFFLE?
+    console.log("FUCK1")
+    const raffleId = 'BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE' //hardcode to APE RAFFLE?
     const { raffles, updateRaffleById } = useRafflesStore()
     const [currentRaffle, setCurrentRaffle] = useState<Raffle>()
 
@@ -22,6 +23,7 @@ const RaffleDetails: FC = () => {
         return () => clearInterval(timerId)
     }, [updateCurrentRaffle])
 
+    console.log("FUCK1")
     useEffect(() => {
         if (raffles.has(raffleId)) setCurrentRaffle(raffles.get(raffleId))
     }, [raffles, raffleId])
@@ -31,6 +33,7 @@ const RaffleDetails: FC = () => {
         [currentRaffle]
     )
 
+    console.log("FUCK1")
     if (!currentRaffle) return null
 
     return !isRaffleEnded ? (

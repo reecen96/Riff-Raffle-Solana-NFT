@@ -1,5 +1,5 @@
 export type Dispenser = {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "name": "dispenser",
   "instructions": [
     {
@@ -234,27 +234,29 @@ export type Dispenser = {
       }
     }
   ],
-  "errors": [
+  "types": [
     {
-      "code": 300,
-      "name": "InsufficientUserFunds",
-      "msg": "Insufficient user funds"
-    },
-    {
-      "code": 301,
-      "name": "InsufficientVaultFunds",
-      "msg": "Insufficient vault funds"
-    },
-    {
-      "code": 302,
-      "name": "InvalidCalculation",
-      "msg": "Invalid calculation"
+      "name": "DispenserError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InsufficientUserFunds"
+          },
+          {
+            "name": "InsufficientVaultFunds"
+          },
+          {
+            "name": "InvalidCalculation"
+          }
+        ]
+      }
     }
   ]
 };
 
 export const IDL: Dispenser = {
-  "version": "0.0.0",
+  "version": "0.1.0",
   "name": "dispenser",
   "instructions": [
     {
@@ -489,21 +491,23 @@ export const IDL: Dispenser = {
       }
     }
   ],
-  "errors": [
+  "types": [
     {
-      "code": 300,
-      "name": "InsufficientUserFunds",
-      "msg": "Insufficient user funds"
-    },
-    {
-      "code": 301,
-      "name": "InsufficientVaultFunds",
-      "msg": "Insufficient vault funds"
-    },
-    {
-      "code": 302,
-      "name": "InvalidCalculation",
-      "msg": "Invalid calculation"
+      "name": "DispenserError",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InsufficientUserFunds"
+          },
+          {
+            "name": "InsufficientVaultFunds"
+          },
+          {
+            "name": "InvalidCalculation"
+          }
+        ]
+      }
     }
   ]
 };

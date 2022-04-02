@@ -1,4 +1,3 @@
-use anchor_client::anchor_lang::Key;
 use anchor_client::solana_client::rpc_config::RpcSendTransactionConfig;
 use anchor_client::solana_sdk::signature::Signer;
 use anchor_client::solana_sdk::{
@@ -20,6 +19,7 @@ use clap::Parser;
 use spl_associated_token_account;
 use std::mem::size_of;
 use std::str::FromStr;
+use std::rc::Rc;
 
 #[derive(Default, Debug, Parser)]
 pub struct ConfigOverride {
@@ -32,7 +32,7 @@ pub struct ConfigOverride {
     #[clap(
         global = true,
         long = "program-id",
-        default_value = "DJgm9u3C2eiWVeokxwzJ92GbS5j2qiqsZ16YMoe8ShXf"
+        default_value = "5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1"
     )]
     pub program_id: String,
 }
@@ -88,7 +88,7 @@ pub fn entry(opts: Opts) -> Result<()> {
     };
 
     // Client setup
-    let payer = read_keypair_file(wallet.clone()).expect("Example requires a keypair file");
+    let payer = read_keypair_file(wallet.clone()).expect("Example requires a keypair file"); // FIXME upgrade
     let payer2 = read_keypair_file(wallet).expect("Example requires a keypair file");
     let url = match opts.cfg_override.cluster {
         Some(cluster) => cluster,
@@ -97,9 +97,12 @@ pub fn entry(opts: Opts) -> Result<()> {
             "ws://127.0.0.1:8900".to_string(),
         ),
     };
-    let client = Client::new_with_options(url, payer, CommitmentConfig::processed());
-    let program_id: Pubkey = FromStr::from_str(&opts.cfg_override.program_id)?;
+    let client = Client::new_with_options(url, Rc::new(payer), CommitmentConfig::processed()); // client: Client::new and Client::new_with_options now accept Rc<dyn Signer> instead of Keypair (#975).
+    // let program_id: Pubkey = FromStr::from_str(&opts.cfg_override.program_id)?;
+    let program_id: Pubkey = FromStr::from_str("5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1")?;
     let program_client = client.program(program_id);
+    println!("{}", program_id);
+//    println!("{}", program_client);
 
     match opts.command {
         Command::ShowRaffle { raffle } => show_raffle(&program_client, raffle),
@@ -189,7 +192,7 @@ fn create_raffle(
     );
     println!("Raffle address: {:}", raffle);
     let (proceeds, _) =
-        Pubkey::find_program_address(&[raffle.key().as_ref(), b"proceeds".as_ref()], &program_id);
+        Pubkey::find_program_address(&[raffle.as_ref(), b"proceeds".as_ref()], &program_id);
 
     // Request arguments
     let clock = deserialize::<Clock>(
@@ -247,17 +250,22 @@ fn add_prize(
     prize_amount: u64,
     prize_index: u32,
 ) -> Result<()> {
+    println!("FUCK 1");
     // Accounts creation
     let (prize, _) = Pubkey::find_program_address(
         &[raffle.as_ref(), b"prize", &prize_index.to_le_bytes()],
         &program_id,
     );
 
+    println!("FUCK 2");
     let creator_prize_token_account = spl_associated_token_account::get_associated_token_address(
         &program_client.payer(),
         &prize_mint,
     );
 
+    println!("FUCK 3");
+    println!("{}", system_program::id());
+    println!("{}", spl_token::id());
     // Request arguments
     program_client
         .request()
@@ -287,7 +295,7 @@ fn reveal_winners(
     payer: &Keypair,
 ) -> Result<()> {
     let rpc_client = program_client.rpc();
-    let hash = rpc_client.get_recent_blockhash().unwrap().0;
+    let hash = rpc_client.get_latest_blockhash().unwrap();
     rpc_client.send_and_confirm_transaction_with_spinner_and_config(
         &Transaction::new_signed_with_payer(
             &[Instruction {
@@ -321,9 +329,9 @@ fn collect_proceeds(
     payer: &Keypair,
 ) -> Result<()> {
     let (proceeds, _) =
-        Pubkey::find_program_address(&[raffle.key().as_ref(), b"proceeds".as_ref()], &program_id);
+        Pubkey::find_program_address(&[raffle.as_ref(), b"proceeds".as_ref()], &program_id);
     let rpc_client = program_client.rpc();
-    let hash = rpc_client.get_recent_blockhash().unwrap().0;
+    let hash = rpc_client.get_latest_blockhash().unwrap();
     rpc_client.send_and_confirm_transaction_with_spinner_and_config(
         &Transaction::new_signed_with_payer(
             &[Instruction {

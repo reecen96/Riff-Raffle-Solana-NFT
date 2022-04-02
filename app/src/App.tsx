@@ -28,7 +28,7 @@ const App = () => {
                                     position="bottom-left"
                                     reverseOrder={false}
                                     toastOptions={{
-                                        duration: 5000,
+                                        duration: 4000,
                                     }}
                                 />
                                 <ScrollToTop />

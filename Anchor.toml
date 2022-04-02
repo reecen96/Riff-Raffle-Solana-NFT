@@ -1,11 +1,11 @@
 anchor_version = "0.17.0"
 
 [provider]
-cluster = "mainnet"
-wallet = "~/.config/solana/id.json"
+cluster = "devnet"
+wallet = "scripts/cc-draffle-deploy-keypair.json"
 
-[programs.mainnet]
-draffle = "dRafA7ymQiLKjR5dmmdZC9RPX4EQUjqYFB3mWokRuDs"
+[programs.devnet]
+draffle = "5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1"
 
 [scripts]
 test = "mocha -t 1000000 tests"
