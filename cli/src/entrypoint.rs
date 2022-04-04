@@ -93,8 +93,8 @@ pub fn entry(opts: Opts) -> Result<()> {
     let url = match opts.cfg_override.cluster {
         Some(cluster) => cluster,
         None => Cluster::Custom(
-            "http://localhost:8899".to_string(),
-            "ws://127.0.0.1:8900".to_string(),
+            "https://api.devnet.solana.com".to_string(),
+            "wss://api.devnet.solana.com/".to_string(),
         ),
     };
     let client = Client::new_with_options(url, Rc::new(payer), CommitmentConfig::processed()); // client: Client::new and Client::new_with_options now accept Rc<dyn Signer> instead of Keypair (#975).
@@ -295,7 +295,7 @@ fn reveal_winners(
     payer: &Keypair,
 ) -> Result<()> {
     let rpc_client = program_client.rpc();
-    let hash = rpc_client.get_latest_blockhash().unwrap();
+    let hash = rpc_client.get_recent_blockhash().unwrap().0;
     rpc_client.send_and_confirm_transaction_with_spinner_and_config(
         &Transaction::new_signed_with_payer(
             &[Instruction {
@@ -331,7 +331,7 @@ fn collect_proceeds(
     let (proceeds, _) =
         Pubkey::find_program_address(&[raffle.as_ref(), b"proceeds".as_ref()], &program_id);
     let rpc_client = program_client.rpc();
-    let hash = rpc_client.get_latest_blockhash().unwrap();
+    let hash = rpc_client.get_recent_blockhash().unwrap().0;
     rpc_client.send_and_confirm_transaction_with_spinner_and_config(
         &Transaction::new_signed_with_payer(
             &[Instruction {

@@ -68,6 +68,24 @@ const tokenRegistry = {
     logoURI: '/dRaffle-logo.png',
     tags: []
   },
+  '534G9F8dQuFJX6BMzzMPWBZEsZ7dZ5afjwVnTK5CTr4u': {
+    chainId: 101,
+    address: '534G9F8dQuFJX6BMzzMPWBZEsZ7dZ5afjwVnTK5CTr4u',
+    symbol: 'TESSST',
+    name: 'TEST Community Token',
+    decimals: 6,
+    logoURI: '/dRaffle-logo.png',
+    tags: []
+  },
+  'F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x': {
+    chainId: 101,
+    address: 'F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x',
+    symbol: 'SPL',
+    name: 'SPL-Token Community Token',
+    decimals: 0,
+    logoURI: '/dRaffle-logo.png',
+    tags: []
+  },
   '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU': {
     chainId: 101,
     address: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',

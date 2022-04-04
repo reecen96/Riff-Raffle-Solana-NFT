@@ -34,7 +34,8 @@ echo "Done"
 
 ##############################
 echo "Getting accounts addresses..."
-NFT1_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json)"
+# This is an NFT that will be a prize. Here we just pre-specify the keypair (pubkey) that will be the address of it.
+NFT1_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json)" 
 echo "${NFT1_ADDRESS}"
 NFT2_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/prize-nft2-keypair.json)"
 echo "${NFT2_ADDRESS}"
@@ -51,12 +52,21 @@ MINT2_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/prize-mint1-ke
 echo "${MINT2_ADDRESS}"
 MINT3_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/prize-mint2-keypair.json)"
 echo "${MINT3_ADDRESS}"
-TEST_USER_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/user1-keypair.json)"
-echo "${TEST_USER_ADDRESS}"
-MINT1_FAUCET_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/user2-keypair.json)"
-echo "${MINT1_FAUCET_ADDRESS}"
-WSOL=So11111111111111111111111111111111111111112
-echo "Done"
+
+SPL_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/spl-token-keypair.json)"
+echo "${SPL_ADDRESS}" # F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x
+
+## NOTE TOPIC SPL TOKEN
+# This is just for testing. It creates a test user account and a faucet to get the custom spl-token from later
+# that you can buy tickets with. Not really required as I recommend creating your own spl-token seperately
+# and using that only as you're developing. Having a single token on the side is easier than all this messing around.
+##
+# TEST_USER_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/user1-keypair.json)"
+# echo "${TEST_USER_ADDRESS}"
+# MINT1_FAUCET_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/user2-keypair.json)"
+# echo "${MINT1_FAUCET_ADDRESS}"
+# WSOL=So11111111111111111111111111111111111111112
+# echo "Done"
 
 ##############################
 echo "Creating sample mints, accounts, and funding them..."
@@ -64,21 +74,9 @@ spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json --
 spl-token create-account ${NFT1_ADDRESS}
 spl-token mint ${NFT1_ADDRESS} 1
 
-# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft2-keypair.json --decimals 0
-# spl-token create-account ${NFT2_ADDRESS}
-# spl-token mint ${NFT2_ADDRESS} 1
-
-# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft3-keypair.json --decimals 0
-# spl-token create-account ${NFT3_ADDRESS}
-# spl-token mint ${NFT3_ADDRESS} 1
-
-# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft4-keypair.json --decimals 0
-# spl-token create-account ${NFT4_ADDRESS}
-# spl-token mint ${NFT4_ADDRESS} 1
-
-# spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft5-keypair.json --decimals 0
-# spl-token create-account ${NFT5_ADDRESS}
-# spl-token mint ${NFT5_ADDRESS} 1
+spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft2-keypair.json --decimals 0
+spl-token create-account ${NFT2_ADDRESS}
+spl-token mint ${NFT2_ADDRESS} 1
 
 spl-token create-token ${SCRIPT_PATH}/sample_accounts/dev-mint-keypair.json --decimals 6
 spl-token create-account ${MINT1_ADDRESS}
@@ -88,40 +86,78 @@ spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-mint1-keypair.json -
 spl-token create-account ${MINT2_ADDRESS}
 spl-token mint ${MINT2_ADDRESS} 30000
 
+spl-token create-token ${SCRIPT_PATH}/sample_accounts/spl-token-keypair.json --decimals 0 # this is our own, use this, deployed on devnet. See ## NOTE TOPIC SPL TOKEN
+spl-token create-account ${SPL_ADDRESS}
+spl-token mint ${SPL_ADDRESS} 300000
+
 # spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-mint2-keypair.json --decimals 2
 # spl-token create-account ${MINT3_ADDRESS}
 # spl-token mint ${MINT3_ADDRESS} 30000
 
 ## on devnet do this manually
 # solana airdrop 10000
+## SEE NOTE TOPIC SPL TOKEN this is not needed while testing as we don't need automated faucet or the test user automatically set up
 # solana transfer --allow-unfunded-recipient ${TEST_USER_ADDRESS} 0.1
 # solana transfer --allow-unfunded-recipient ${MINT1_FAUCET_ADDRESS} 2
 
-spl-token transfer --allow-unfunded-recipient --fund-recipient  ${MINT1_ADDRESS} 3 ${TEST_USER_ADDRESS}
-spl-token transfer --allow-unfunded-recipient --fund-recipient  ${MINT1_ADDRESS} 3 ${MINT1_FAUCET_ADDRESS}
-echo "Done"
+## airdropping spl-token-1 to a test user and to a faucet. faucet used for testing, so not really needed in this case.
+## this spl-token can and will be used for buying tickets to the raffle
+# spl-token transfer --allow-unfunded-recipient --fund-recipient  ${MINT1_ADDRESS} 3 ${TEST_USER_ADDRESS}
+# spl-token transfer --allow-unfunded-recipient --fund-recipient  ${MINT1_ADDRESS} 3 ${MINT1_FAUCET_ADDRESS}
+# echo "Done"
 
 ##############################
 echo "Creating sample raffles..."
 cd ${ROOT_PATH}
-cargo build
+cargo build # This builds the CLI tool.
 
 ## This raffle address is live and deployed!! # 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw
 # target/debug/draffle create-raffle ${MINT1_ADDRESS} 500000 "2022-04-04 23:35" /Users/nagy/Files/CryptoCoders/draffle/scripts/sample_accounts/raffle/entrants1-keypair.json
-${SCRIPT_PATH}/../target/debug/draffle create-raffle ${MINT1_ADDRESS} 500000 "$(cdate --utc -d "+2 minute" '+%Y-%m-%d %H:%M')" "${SCRIPT_PATH}/sample_accounts/raffle/entrants1-keypair.json" # BQ2CVceaCP5HSNGeByWit2a5KCKRMGzRPuX2KRKbS9HE
+## Creating a raffle with the spl-token-1 as the token to use to buy the tickets and ending date. Entrant is not really needed AFAIU but can pre-add already
+${SCRIPT_PATH}/../target/debug/draffle create-raffle \
+    ${MINT1_ADDRESS} \
+    500000 \
+    "$(cdate --utc -d "+2 minute" '+%Y-%m-%d %H:%M')" \
+    "${SCRIPT_PATH}/sample_accounts/raffle/entrants1-keypair.json" \
+    --provider.cluster devnet \
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json
+
+${SCRIPT_PATH}/../target/debug/draffle create-raffle \
+    ${SPL_ADDRESS} \
+    1 \
+    "2022-04-04 1:35" \
+    --provider.cluster devnet \
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json
+
+## NOTES
+# 1 1 - this means 1 token, in the 1 place of the prize array. arrays start at 0 yea (error 0x1772)
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${MINT2_ADDRESS} 25 0
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${NFT1_ADDRESS} 1 1
+${SCRIPT_PATH}/../target/debug/draffle add-prize GopXKxDwCaST9FHR8RBmmqCFdUAvRLNVPvkiLjgHNaAS ${NFT2_ADDRESS} 1 1
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${MINT3_ADDRESS} 334 2
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${NFT4_ADDRESS} 1 3
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${MINT3_ADDRESS} 12300 4
+
+${SCRIPT_PATH}/../target/debug/draffle add-prize \
+    GopXKxDwCaST9FHR8RBmmqCFdUAvRLNVPvkiLjgHNaAS \
+    ${NFT2_ADDRESS} \
+    1 0 \
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json
+
+
 
 ### extra flags for CLI tool
 --provider.cluster devnet \
 --provider.wallet scripts/cc-draffle-deploy-keypair.json \
 
+### Show raffle
+${SCRIPT_PATH}/../target/debug/draffle show-raffle 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw
+
 ##############################
 echo "Creating sample NFT metadata with URLs REACT_APP_URL=${REACT_APP_URL} and REACT_APP_RPC_ENDPOINT=${REACT_APP_RPC_ENDPOINT}"
-RUST_BACKTRACE=full ${SCRIPT_PATH}/metaplex-token-metadata-test-client create_metadata_accounts --name "Degen Ape #1" --symbol "DA" --uri "${REACT_APP_URL}/nfts/degenApe1.json" --url "${REACT_APP_RPC_ENDPOINT}" --mint "${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json" --keypair ~/.config/solana/id.json
+## Adding metadata to the prize NFT with the metaplex cli tool. Since this is a test NFT and has no metadata yet, we need to add it here. In a live env this would not be needed because we use actual NFTs.
+RUST_BACKTRACE=full ${SCRIPT_PATH}/metaplex-token-metadata-test-client create_metadata_accounts --name "Degen Ape #1" --symbol "DA" --uri "${REACT_APP_URL}/nfts/degenApe1.json" --url "${REACT_APP_RPC_ENDPOINT}" --mint "${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json" --keypair scripts/cc-draffle-deploy-keypair.json
+RUST_BACKTRACE=full ${SCRIPT_PATH}/metaplex-token-metadata-test-client create_metadata_accounts --name "Degen Ape #1" --symbol "DA" --uri "${REACT_APP_URL}/nfts/degenApe1.json" --url "${REACT_APP_RPC_ENDPOINT}" --mint "${SCRIPT_PATH}/sample_accounts/prize-nft2-keypair.json" --keypair scripts/cc-draffle-deploy-keypair.json
 
 
 

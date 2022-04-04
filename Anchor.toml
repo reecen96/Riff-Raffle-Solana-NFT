@@ -1,4 +1,4 @@
-anchor_version = "0.17.0"
+anchor_version = "0.23.0"
 
 [provider]
 cluster = "devnet"
