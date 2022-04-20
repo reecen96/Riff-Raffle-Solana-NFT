@@ -71,6 +71,12 @@ ${SCRIPT_PATH}/../target/debug/draffle add-prize \
     ${NFT2_ADDRESS} \
     1 0 \
     --provider.wallet scripts/cc-draffle-deploy-keypair.json
+
+${SCRIPT_PATH}/../target/debug/draffle add-prize \
+    HWUx6BFVQmRD7AyfiEeeJgbh1kwq2g6ceJ2qWM9DUgZt \
+    k7LYWzjzi2kScMUqW8impqZU9uH6hU5xbrvn6cDGyU7 \
+    1 0 \
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json
 ```
 
 Explanation

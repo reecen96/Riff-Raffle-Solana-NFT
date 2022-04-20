@@ -71,7 +71,7 @@ const tokenRegistry = {
   '534G9F8dQuFJX6BMzzMPWBZEsZ7dZ5afjwVnTK5CTr4u': {
     chainId: 101,
     address: '534G9F8dQuFJX6BMzzMPWBZEsZ7dZ5afjwVnTK5CTr4u',
-    symbol: 'TESSST',
+    symbol: 'MYTOKEN',
     name: 'TEST Community Token',
     decimals: 6,
     logoURI: '/dRaffle-logo.png',

@@ -3,7 +3,7 @@ import { RaffleMetaData } from '../lib/types';
 import { TESTING } from './misc';
 
 const testWhitelist = new Map<string, RaffleMetaData>([
-  ['AopPMW9k4Q5K8bw9Vf8KEqk5wJNrkvkBWDCKzq1eDUBr', { name: 'dRafflenet #1' }],
+  ['HWUx6BFVQmRD7AyfiEeeJgbh1kwq2g6ceJ2qWM9DUgZt', { name: 'NAME OF RAFFLE' }],
   [
     '3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj',
     {

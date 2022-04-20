@@ -125,7 +125,7 @@ ${SCRIPT_PATH}/../target/debug/draffle create-raffle \
 ${SCRIPT_PATH}/../target/debug/draffle create-raffle \
     ${SPL_ADDRESS} \
     1 \
-    "2022-04-04 1:35" \
+    "2022-05-05 19:35" \
     --provider.cluster devnet \
     --provider.wallet scripts/cc-draffle-deploy-keypair.json
 
@@ -143,7 +143,6 @@ ${SCRIPT_PATH}/../target/debug/draffle add-prize \
     ${NFT2_ADDRESS} \
     1 0 \
     --provider.wallet scripts/cc-draffle-deploy-keypair.json
-
 
 
 ### extra flags for CLI tool

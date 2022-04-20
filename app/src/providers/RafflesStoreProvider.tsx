@@ -23,7 +23,7 @@ import { RAFFLES_WHITELIST } from '../config/raffleWhitelist';
 
 export interface RafflesStore {
   raffles: Map<string, Raffle>;
-  fetchAllRaffles: (includeEmpty?: boolean) => void;
+  fetchAllRaffles: (showAll?: boolean) => void;
   updateRaffleById: (raffleId: string) => void;
   fetching: boolean;
 }
@@ -99,7 +99,7 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
   };
 
   const fetchAllRaffles = useCallback(
-    async (includeEmpty: boolean = false) => {
+    async (showAll: boolean = false) => { // LOOK HERE MF
       setFetching(true);
       let raffleDataRawProgramAccounts: ProgramAccount<RaffleDataRaw>[] = [];
       let entrantsDataRawProgramAccounts: ProgramAccount<EntrantsDataRaw>[] =
@@ -113,8 +113,9 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
 
       raffleDataRawProgramAccounts = raffleDataRawProgramAccounts.filter(
         ({ publicKey }) =>
-          includeEmpty || RAFFLES_WHITELIST.has(publicKey.toBase58())
+          showAll || RAFFLES_WHITELIST.has(publicKey.toBase58())
       );
+      console.log(raffleDataRawProgramAccounts);
 
       const newRaffles = (
         await Promise.all(
@@ -122,7 +123,7 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
             getAssociatedRaffleData(
               raffleRaw,
               RAFFLES_WHITELIST.get(raffleRaw.publicKey.toString()) || {
-                name: 'Unnamed Raffle',
+                name: 'Unnamed RaffleTEST', // LOOOK HERE
                 alternatePurchaseMints: [],
               },
               draffleClient,
@@ -170,7 +171,7 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
   );
 
   useEffect(() => {
-    fetchAllRaffles();
+    fetchAllRaffles(true);
   }, [fetchAllRaffles]);
 
   return (

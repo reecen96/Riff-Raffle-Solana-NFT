@@ -22,7 +22,15 @@ const RaffleDetails: FC = () => {
   }, [updateCurrentRaffle]);
 
   useEffect(() => {
-    if (raffles.has(raffleId)) setCurrentRaffle(raffles.get(raffleId));
+    console.log(raffles);
+    console.log(raffles.has(raffleId));
+    console.log(raffleId);
+    if (raffles.has(raffleId)) {
+      setCurrentRaffle(raffles.get(raffleId));
+      console.log("current raffle is bitch");
+
+    } 
+
   }, [raffles, raffleId]);
 
   const isRaffleEnded = useMemo(
