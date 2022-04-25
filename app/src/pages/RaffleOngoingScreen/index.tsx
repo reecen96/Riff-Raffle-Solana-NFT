@@ -183,7 +183,7 @@ const RaffleOngoingScreenWithLayout: FC<IRaffleOngoingDetailsProps> = (
 ) => {
   const { push } = useHistory();
 
-  console.log("FUCKME - raffle ongoing screen")
+  console.log("raffle ongoing screen")
 
   return (
     <Screen onBackNavigation={() => push(routes.RAFFLES)}>

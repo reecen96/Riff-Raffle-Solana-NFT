@@ -3,7 +3,9 @@ import { RaffleMetaData } from '../lib/types';
 import { TESTING } from './misc';
 
 const testWhitelist = new Map<string, RaffleMetaData>([
-  ['HWUx6BFVQmRD7AyfiEeeJgbh1kwq2g6ceJ2qWM9DUgZt', { name: 'NAME OF RAFFLE' }],
+  ['HWUx6BFVQmRD7AyfiEeeJgbh1kwq2g6ceJ2qWM9DUgZt', { name: 'Kollektors Collab' }], // How to name raffles
+  ['9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw', { name: 'Art Raffle #1' }], // How to name raffles
+  ['9JxLEGkcUwNT76mTa9Znbew2pCCrak3zekNzyJF2KN6C', { name: 'Multi Raffle' }], // How to name raffles
   [
     '3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj',
     {

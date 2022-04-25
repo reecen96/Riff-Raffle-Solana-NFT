@@ -6,7 +6,7 @@ use anchor_spl::token::Token;
 use anchor_spl::token::{self, Mint, TokenAccount};
 
 pub const ENTRANTS_SIZE: u32 = 5000;
-pub const TIME_BUFFER: i64 = 20;
+pub const TIME_BUFFER: i64 = 1;
 
 // #[cfg(not(feature = "production"))]
 // declare_id!("5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1"); //original DJgm9u3C2eiWVeokxwzJ92GbS5j2qiqsZ16YMoe8ShXf
@@ -123,7 +123,8 @@ pub mod draffle {
             .end_timestamp
             .checked_add(TIME_BUFFER)
             .ok_or(RaffleError::InvalidCalculation)?;
-        if clock.unix_timestamp < end_timestamp_with_buffer {
+        let end_timestamp = raffle.end_timestamp;
+        if clock.unix_timestamp < end_timestamp {
             return Err(error!(RaffleError::RaffleStillRunning));
         }
 

@@ -18,9 +18,9 @@ After the main raffle program has been deployed, you can create raffles by using
 ${SCRIPT_PATH}/../target/debug/draffle create-raffle \
     ${SPL_ADDRESS} \
     1 \
-    "2022-04-04 1:35" \
+    "2022-04-22 14:55" \
     --provider.cluster devnet \
-    --provider.wallet scripts/cc-draffle-deploy-keypair.json
+    --provider.wallet scripts/draffle-operations-keypair.json
 ```
 
 Explanation
@@ -28,7 +28,7 @@ Explanation
 ${SCRIPT_PATH}/../target/debug/draffle create-raffle \ # path to draffle CLI with command create-raffle
     ${SPL_ADDRESS} \ # Token mint to pay for the tickets with
     1 \ # Cost per ticket in spl-token
-    "2022-04-04 1:35" \ # Raffle end time, not sure what timezone
+    "2022-04-22 15:55" \ # Raffle end time, UTC timezone. double check this if you get a 0x1771 error.
     --provider.cluster devnet \ # Specify network if you want
     --provider.wallet scripts/cc-draffle-deploy-keypair.json # Specify which keypair to use for the command, otherwise it'll use your default solana CLI config
 ```
@@ -41,7 +41,7 @@ Cluster clock unix_timestamp: 1649035423, raffle end_timestamp: 1649036100
 ```
 
 2. Create token for prize _(development)_
-After the raffle has been created, you can use the raffle address (see above) to add prizes to it. A prize can be either a fungible or non-fungible token (composability ftw) and there can be multiple prizes at once. You will need the mint address of the prize, and you'll need to own it to be able to put it into the raffle (duh). In a production environment you would use actual tokens and NFTs, but for development we'll just create our own ad-hoc.
+After the raffle has been created, you can use the raffle address (see above) to add prizes to it. A prize can be either a fungible or non-fungible token (composability ftw) and there can be multiple prizes at once. You will need the mint address of the prize, and you'll need to own it to be able to put it into the raffle (duh). In a production environment you would use actual tokens and NFTs, but for development we can just create our own ad-hoc.
 
 Here's some examples of how you can create tokens ad-hoc to add to the raffle (again, create new keypairs because these are already used). Export the `SCRIPT_PATH` variable into your env with `export SCRIPT_PATH="/Users/username/.../draffle/scripts"`.
 ```bash
@@ -72,15 +72,17 @@ ${SCRIPT_PATH}/../target/debug/draffle add-prize \
     1 0 \
     --provider.wallet scripts/cc-draffle-deploy-keypair.json
 
+# EXAMPLE
 ${SCRIPT_PATH}/../target/debug/draffle add-prize \
-    HWUx6BFVQmRD7AyfiEeeJgbh1kwq2g6ceJ2qWM9DUgZt \
-    k7LYWzjzi2kScMUqW8impqZU9uH6hU5xbrvn6cDGyU7 \
+    9JxLEGkcUwNT76mTa9Znbew2pCCrak3zekNzyJF2KN6C \
+    3UnvLCvMqhEJxTSEAV2JogDKejghHpG1o28Sa3hq6AQH \
     1 0 \
-    --provider.wallet scripts/cc-draffle-deploy-keypair.json
+    --provider.wallet scripts/draffle-operations-keypair.json \
+    --provider.cluster devnet
 ```
 
 Explanation
-```
+```bash
 ${SCRIPT_PATH}/../target/debug/draffle add-prize \ # add-prize command of the Draffle CLI
     GopXKxDwCaST9FHR8RBmmqCFdUAvRLNVPvkiLjgHNaAS \ # Raffle ID from before
     ${NFT2_ADDRESS} \ # Pubkey of token to add as a prize, you must own this
@@ -90,7 +92,7 @@ ${SCRIPT_PATH}/../target/debug/draffle add-prize \ # add-prize command of the Dr
 
 4. Check raffle
 After you've added a prize (or at any point really) you can check the details of the raffle with the following command
-```
+```bash
 ${SCRIPT_PATH}/../target/debug/draffle show-raffle <raffle pubkey>
 # eg. ${SCRIPT_PATH}/../target/debug/draffle show-raffle 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw
 ```
@@ -105,12 +107,35 @@ Raffle {
     randomness: None,
     end_timestamp: 1649036100,
     ticket_price: 1,
-    entrants: H8p1wcT3aZ8h9Q9x9w95VPqGedYjWKHFSsRvxvDVzJWT, # Not sure what this is honestly
+    entrants: H8p1wcT3aZ8h9Q9x9w95VPqGedYjWKHFSsRvxvDVzJWT, # possibly the PDA of the entrants list
 }
 ```
 
-5. Take a break
-Congrats. You have a raffle with a prize. Now take a break, you earned it.
+5. Reveal Winners
+```bash
+${SCRIPT_PATH}/../target/debug/draffle reveal-winners \
+    --provider.cluster devnet \
+    9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw
+```
+Where `9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw` is the raffle id. This can only be done after a raffle has ended and the buffer period has completed. If you get an error executing this, try again later.
+
+6. Collect proceeds
+```bash
+${SCRIPT_PATH}/../target/debug/draffle collect-proceeds \
+    --provider.cluster devnet \
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json \
+    9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw \
+    95JznvF8WXN8WDqq7LXJ2n5C6qmgNbH5s2UFqfvx9Wnf
+```
+
+Explanation
+```bash
+${SCRIPT_PATH}/../target/debug/draffle collect-proceeds \ # collect-proceeds command
+    --provider.cluster devnet \ # specify network
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json \ # specify wallet to sign the transaction, this is required
+    9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw \ # raffle id
+    95JznvF8WXN8WDqq7LXJ2n5C6qmgNbH5s2UFqfvx9Wnf # target token account where the proceeds should go
+```
 
 
 #### Testing on localnet

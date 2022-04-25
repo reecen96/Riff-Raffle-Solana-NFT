@@ -117,7 +117,7 @@ cargo build # This builds the CLI tool.
 ${SCRIPT_PATH}/../target/debug/draffle create-raffle \
     ${MINT1_ADDRESS} \
     500000 \
-    "$(cdate --utc -d "+2 minute" '+%Y-%m-%d %H:%M')" \
+    "(cdate --utc -d "+5 minute" '+%Y-%m-%d %H:%M')" \
     "${SCRIPT_PATH}/sample_accounts/raffle/entrants1-keypair.json" \
     --provider.cluster devnet \
     --provider.wallet scripts/cc-draffle-deploy-keypair.json
@@ -126,6 +126,13 @@ ${SCRIPT_PATH}/../target/debug/draffle create-raffle \
     ${SPL_ADDRESS} \
     1 \
     "2022-05-05 19:35" \
+    --provider.cluster devnet \
+    --provider.wallet scripts/cc-draffle-deploy-keypair.json
+
+${SCRIPT_PATH}/../target/debug/draffle create-raffle \
+    ${SPL_ADDRESS} \
+    1 \
+    "2022-04-20 13:51" \
     --provider.cluster devnet \
     --provider.wallet scripts/cc-draffle-deploy-keypair.json
 
@@ -139,8 +146,8 @@ ${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbf
 ${SCRIPT_PATH}/../target/debug/draffle add-prize 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw ${MINT3_ADDRESS} 12300 4
 
 ${SCRIPT_PATH}/../target/debug/draffle add-prize \
-    GopXKxDwCaST9FHR8RBmmqCFdUAvRLNVPvkiLjgHNaAS \
-    ${NFT2_ADDRESS} \
+    9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw \
+    CTxsYcUHuiwHPrwAY8mTCGKCUXkfehorzaQ66HWA6vZm \
     1 0 \
     --provider.wallet scripts/cc-draffle-deploy-keypair.json
 

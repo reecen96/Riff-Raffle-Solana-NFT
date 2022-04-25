@@ -71,7 +71,7 @@ const tokenRegistry = {
   '534G9F8dQuFJX6BMzzMPWBZEsZ7dZ5afjwVnTK5CTr4u': {
     chainId: 101,
     address: '534G9F8dQuFJX6BMzzMPWBZEsZ7dZ5afjwVnTK5CTr4u',
-    symbol: 'MYTOKEN',
+    symbol: 'RANDOTOKEN',
     name: 'TEST Community Token',
     decimals: 6,
     logoURI: '/dRaffle-logo.png',
@@ -80,7 +80,7 @@ const tokenRegistry = {
   'F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x': {
     chainId: 101,
     address: 'F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x',
-    symbol: 'SPL',
+    symbol: '$TOKEN',
     name: 'SPL-Token Community Token',
     decimals: 0,
     logoURI: '/dRaffle-logo.png',
