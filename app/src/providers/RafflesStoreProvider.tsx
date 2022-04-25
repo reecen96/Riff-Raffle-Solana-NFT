@@ -99,7 +99,7 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
   };
 
   const fetchAllRaffles = useCallback(
-    async (showAll: boolean = false) => { // LOOK HERE MF
+    async (showAll: boolean = false) => { // LOOK HERE
       setFetching(true);
       let raffleDataRawProgramAccounts: ProgramAccount<RaffleDataRaw>[] = [];
       let entrantsDataRawProgramAccounts: ProgramAccount<EntrantsDataRaw>[] =
@@ -123,7 +123,7 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
             getAssociatedRaffleData(
               raffleRaw,
               RAFFLES_WHITELIST.get(raffleRaw.publicKey.toString()) || {
-                name: 'Unnamed RaffleTEST', // LOOOK HERE
+                name: 'Unnamed Raffle', // LOOOK HERE
                 alternatePurchaseMints: [],
               },
               draffleClient,

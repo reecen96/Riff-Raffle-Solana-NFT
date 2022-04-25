@@ -225,7 +225,7 @@ interface IRaffleEndedDetailsProps {
 const RaffleEndedScreenWithLayout: FC<IRaffleEndedDetailsProps> = (props) => {
   const { push } = useHistory();
 
-  console.log("FUCKME - raffle ended screen")
+  console.log("raffle ended screen")
 
   return (
     <Screen onBackNavigation={() => push(routes.RAFFLES)}>

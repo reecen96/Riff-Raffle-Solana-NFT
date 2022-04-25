@@ -24,11 +24,10 @@ const RaffleDetails: FC = () => {
   useEffect(() => {
     console.log(raffles);
     console.log(raffles.has(raffleId));
+    console.log("Raffle ID:");
     console.log(raffleId);
     if (raffles.has(raffleId)) {
       setCurrentRaffle(raffles.get(raffleId));
-      console.log("current raffle is bitch");
-
     } 
 
   }, [raffles, raffleId]);
@@ -37,10 +36,8 @@ const RaffleDetails: FC = () => {
     () => currentRaffle && new Date() > currentRaffle.endTimestamp,
     [currentRaffle]
   );
-
-  console.log("FUCKME1")
   
-  if (!currentRaffle) console.log("current raffle is null")
+  if (!currentRaffle) console.log("Current raffle is null")
   if (!currentRaffle) return null;
 
   return isRaffleEnded ? (

@@ -250,22 +250,19 @@ fn add_prize(
     prize_amount: u64,
     prize_index: u32,
 ) -> Result<()> {
-    println!("FUCK 1");
+    println!("Adding prize to raffle");
     // Accounts creation
     let (prize, _) = Pubkey::find_program_address(
         &[raffle.as_ref(), b"prize", &prize_index.to_le_bytes()],
         &program_id,
     );
 
-    println!("FUCK 2");
     let creator_prize_token_account = spl_associated_token_account::get_associated_token_address(
         &program_client.payer(),
         &prize_mint,
     );
 
-    println!("FUCK 3");
-    println!("{}", system_program::id());
-    println!("{}", spl_token::id());
+    println!("SPL Token ID: {}", spl_token::id());
     // Request arguments
     program_client
         .request()

@@ -270,7 +270,7 @@ pub struct CreateRaffle<'info> {
         token::authority = raffle,
     )]
     pub proceeds: Account<'info, TokenAccount>,
-    pub proceeds_mint: Account<'info, Mint>, // spl-token mint address to pay with for tickets
+    pub proceeds_mint: Account<'info, Mint>, // spl-token mint address to buy tickets with
     pub system_program: Program<'info, System>,
     pub token_program: Program<'info, Token>,
     pub rent: Sysvar<'info, Rent>,
