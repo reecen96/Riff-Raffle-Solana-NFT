@@ -123,8 +123,8 @@ pub mod draffle {
             .end_timestamp
             .checked_add(TIME_BUFFER)
             .ok_or(RaffleError::InvalidCalculation)?;
-        let end_timestamp = raffle.end_timestamp;
-        if clock.unix_timestamp < end_timestamp {
+        // let end_timestamp = raffle.end_timestamp;
+        if clock.unix_timestamp < end_timestamp_with_buffer {
             return Err(error!(RaffleError::RaffleStillRunning));
         }
 
