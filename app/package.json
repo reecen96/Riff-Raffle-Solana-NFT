@@ -44,9 +44,9 @@
   },
   "scripts": {
     "generateNFTJson": "node ./bin/generateNFTJson.js",
-    "start": "yarn generateNFTJson && react-scripts start",
-    "build": "yarn generateNFTJson && react-scripts build",
-    "test": "yarn generateNFTJson && react-scripts test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

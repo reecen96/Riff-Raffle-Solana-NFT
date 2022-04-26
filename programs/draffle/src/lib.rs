@@ -8,14 +8,7 @@ use anchor_spl::token::{self, Mint, TokenAccount};
 pub const ENTRANTS_SIZE: u32 = 5000;
 pub const TIME_BUFFER: i64 = 1;
 
-// #[cfg(not(feature = "production"))]
-// declare_id!("5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1"); //original DJgm9u3C2eiWVeokxwzJ92GbS5j2qiqsZ16YMoe8ShXf
-
-// #[cfg(feature = "production")]
-// declare_id!("dRafA7ymQiLKjR5dmmdZC9RPX4EQUjqYFB3mWokRuDs");
-
-
-declare_id!("5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1");
+declare_id!("raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF");
 
 #[program]
 pub mod draffle {

@@ -32,7 +32,7 @@ pub struct ConfigOverride {
     #[clap(
         global = true,
         long = "program-id",
-        default_value = "5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1"
+        default_value = "raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF"
     )]
     pub program_id: String,
 }
@@ -98,11 +98,10 @@ pub fn entry(opts: Opts) -> Result<()> {
         ),
     };
     let client = Client::new_with_options(url, Rc::new(payer), CommitmentConfig::processed()); // client: Client::new and Client::new_with_options now accept Rc<dyn Signer> instead of Keypair (#975).
-    // let program_id: Pubkey = FromStr::from_str(&opts.cfg_override.program_id)?;
-    let program_id: Pubkey = FromStr::from_str("5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1")?;
+    let program_id: Pubkey = FromStr::from_str(&opts.cfg_override.program_id)?;
+    // let program_id: Pubkey = FromStr::from_str("raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF")?;
     let program_client = client.program(program_id);
-    println!("{}", program_id);
-//    println!("{}", program_client);
+    println!("Program ID: {}", program_id);
 
     match opts.command {
         Command::ShowRaffle { raffle } => show_raffle(&program_client, raffle),
@@ -262,7 +261,6 @@ fn add_prize(
         &prize_mint,
     );
 
-    println!("SPL Token ID: {}", spl_token::id());
     // Request arguments
     program_client
         .request()

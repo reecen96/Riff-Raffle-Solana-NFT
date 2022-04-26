@@ -1,11 +1,20 @@
 anchor_version = "0.23.0"
 
 [provider]
-cluster = "devnet"
-wallet = "scripts/cc-draffle-deploy-keypair.json"
+cluster = "localnet"
+wallet = "operations/DEp4gJeVpAgXj25A1QTRR2ta35cgNKGqEyrQ7WjVv7eR.json"
+
+[programs.localnet]
+draffle = "raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF"
 
 [programs.devnet]
-draffle = "5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1"
+draffle = "raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF"
+
+[programs.mainnet]
+draffle = "raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF"
 
 [scripts]
-test = "mocha -t 1000000 tests"
+test = "mocha -t 1000000 programs/tests"
+
+[registry]
+url = "https://anchor.projectserum.com"

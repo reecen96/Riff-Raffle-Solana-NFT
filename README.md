@@ -9,7 +9,7 @@
 
 
 #### Setup
-Clone this repo and `cd` into the root directory. Run `anchor build` and `anchor deploy` to build & deploy. As usual, after deployment _(because you changed the program key didn't you)_ make sure to change all occurances of it, eg. `declare_id`. I recommend searching for `5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1` in VSCode and doing replace-all with the new value. To build the CLI tool, run `cargo build` from the same [root] directory (and build again if you change anything in there down the road).
+Clone this repo and `cd` into the root directory. Run `anchor build` and `anchor deploy` to build & deploy. As usual, after deployment _(because you changed the program key didn't you)_ make sure to change all occurances of it, eg. `declare_id`. I recommend searching for `raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF` in VSCode and doing replace-all with the new value. To build the CLI tool, run `cargo build` from the same [root] directory (and build again if you change anything in there down the road).
 
 1. Create a raffle
 After the main raffle program has been deployed, you can create raffles by using the following command. To see all available commands, run the CLI with the `--help` flag as usual.
