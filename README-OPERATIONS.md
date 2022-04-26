@@ -86,13 +86,13 @@ Note: None of these attributes can be changed after a raffle has been created.
 
     # EXPLANATION
     target/debug/draffle create-raffle \
-        "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" \ # SPL token mint address that can be used to buy tickets, this is USDC
+        EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v \ # SPL token mint address that can be used to buy tickets, this is USDC
         1 \ # Cost per ticket in given token
         "2022-04-22 14:55" \ # Raffle end date in UTC timezone. Double check this if you encounter a 0x1771 error.
         --max-entrants 420 \ # Max tickets available for given raffle
         --provider.cluster devnet \ # Cluster
         --provider.wallet operations/keypair.json # Keypair to execute command with
-        --program-id "<program-id>" # Deployed raffle program
+        --program-id <program-id> # Deployed raffle program
 
     # OUTPUT
     5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1 # Program ID
@@ -111,7 +111,7 @@ Note: None of these attributes can be changed after a raffle has been created.
         0 \
         --provider.cluster devnet \
         --provider.wallet operations/keypair.json
-        --program-id "<program-id>"
+        --program-id <program-id>
 
     # EXPLANATION
     target/debug/draffle add-prize \
@@ -121,7 +121,7 @@ Note: None of these attributes can be changed after a raffle has been created.
         0 \ # Position in the array of prizes. Starting at 0, 1, 2...
         --provider.cluster devnet \
         --provider.wallet operations/operator-keypair.json
-        --program-id "<program-id>"
+        --program-id <program-id>
     ```
 
 1. Check raffle state
@@ -153,7 +153,7 @@ Note: None of these attributes can be changed after a raffle has been created.
         <raffle-address> \
         --provider.cluster devnet \
         --provider.wallet operations/operator-keypair.json \
-        --program-id "<program-id>"
+        --program-id <program-id>
     ```
 
 6. Collect proceeds FIXME NOT TESTED
@@ -163,7 +163,7 @@ target/debug/draffle collect-proceeds \
     <target-token-account> \
     --provider.cluster devnet \
     --provider.wallet scripts/operator-keypair.json \
-    --program-id "<program-id>"
+    --program-id <program-id>
 
 # EXPLANATION
 target/debug/draffle collect-proceeds \
@@ -171,7 +171,7 @@ target/debug/draffle collect-proceeds \
     <target-token-account> \ # The token account matching the token used to pay for tickets, where the proceeds will be deposited.
     --provider.cluster devnet \
     --provider.wallet scripts/operator-keypair.json \
-    --program-id "<program-id>"
+    --program-id <program-id>
 ```
 
 ## Frontend
@@ -184,7 +184,7 @@ yarn build
 yarn start
 ```
 
-## SPL Token
+### SPL Token
 You must specify all custom SPL tokens used for your raffles within the `app/src/config/tokenRegistry.ts` file as seen in previous examples.
 
 ### Raffles view
