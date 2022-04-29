@@ -157,22 +157,22 @@ Note: None of these attributes can be changed after a raffle has been created.
     ```
 
 6. Collect proceeds FIXME NOT TESTED
-```bash
-target/debug/draffle collect-proceeds \
-    <raffle-address> \
-    <target-token-account> \
-    --provider.cluster devnet \
-    --provider.wallet scripts/operator-keypair.json \
-    --program-id <program-id>
+    ```bash
+    target/debug/draffle collect-proceeds \
+        <raffle-address> \
+        <target-token-account> \
+        --provider.cluster devnet \
+        --provider.wallet scripts/operator-keypair.json \
+        --program-id <program-id>
 
-# EXPLANATION
-target/debug/draffle collect-proceeds \
-    <raffle-address> \ # Raffle address
-    <target-token-account> \ # The token account matching the token used to pay for tickets, where the proceeds will be deposited.
-    --provider.cluster devnet \
-    --provider.wallet scripts/operator-keypair.json \
-    --program-id <program-id>
-```
+    # EXPLANATION
+    target/debug/draffle collect-proceeds \
+        <raffle-address> \ # Raffle address
+        <target-token-account> \ # The token account matching the token used to pay for tickets, where the proceeds will be deposited.
+        --provider.cluster devnet \
+        --provider.wallet scripts/operator-keypair.json \
+        --program-id <program-id>
+    ```
 
 ## Frontend
 The supplied frontend can be found in the `app` directory, written in React / TypeScript. Before running `start`, replace the `REACT_APP_DRAFFLE_PROGRAM_ID` in the `app/.env` file to your deployed draffle program address.

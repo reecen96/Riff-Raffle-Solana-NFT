@@ -193,20 +193,20 @@ solana-test-validator \
 
 spl-token 29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao (deployer-keypair authority)
 raffle address CU7ZkyUfKnxYjUY1Lo71sez2D1AJLqGoTbWtuUAst1qq (ended, still)
-raffle address 9ugqjedKPqmzF61drvUa4dfLpLpvvtKAgguDZytgsDDj
+raffle address Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U
 
 target/debug/draffle create-raffle \
         29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao \
         5000 \
-        "2022-04-26 0:00" \
+        "2022-04-27 0:00" \
         --max-entrants 420 \
         --provider.cluster devnet \
         --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
         --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
 
 target/debug/draffle add-prize \
-        CU7ZkyUfKnxYjUY1Lo71sez2D1AJLqGoTbWtuUAst1qq \
-        CTxsYcUHuiwHPrwAY8mTCGKCUXkfehorzaQ66HWA6vZm \
+        Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U \
+        EEuZYa1dMq56W9Y1dUGR6Ub3u1Luj1kGVuh2ZtZoQxVu \
         1 \
         0 \
         --provider.cluster devnet \
@@ -214,7 +214,7 @@ target/debug/draffle add-prize \
         --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
 
 target/debug/draffle show-raffle \
-    CU7ZkyUfKnxYjUY1Lo71sez2D1AJLqGoTbWtuUAst1qq \
+    Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U \
     --provider.cluster devnet
 
 target/debug/draffle reveal-winners \
