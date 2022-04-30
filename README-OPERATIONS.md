@@ -1,8 +1,3 @@
-FIXME to clear
-- Test how SOL can be used for tickets & document (wrapped sol?)
-- test withdrawing the proceeds from a finished raffle
-
-
 # DRaffle Operations Guide
 This document outlines how the Draffle program can be deployed and operated. Includes deploying the contract and managing raffles end-to-end.
 
