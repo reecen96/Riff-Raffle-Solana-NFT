@@ -69,7 +69,7 @@ Switch the CLI to the `operator-keypair.json` via `solana config set -k operatio
 Note: None of these attributes can be changed after a raffle has been created.
 - A raffle can use SOL or any SPL token for buying tickets.
 - The max number of tickets available per raffle defaults to 5000. It can be customized by using the `--max-entrants` flag as seen below.
-- The price of a ticket in the given SPL token or SOL can be specified.
+- The price of a ticket in the given SPL token or SOL can be specified. Make sure to match the decimals of the token in all occurances.
 
 
 1. Create raffle
@@ -156,7 +156,7 @@ Note: None of these attributes can be changed after a raffle has been created.
         --program-id <program-id>
     ```
 
-6. Collect proceeds FIXME NOT TESTED
+6. Collect proceeds
     ```bash
     target/debug/draffle collect-proceeds \
         <raffle-address> \
@@ -173,6 +173,31 @@ Note: None of these attributes can be changed after a raffle has been created.
         --provider.wallet scripts/operator-keypair.json \
         --program-id <program-id>
     ```
+
+### Token for buying tickets
+Any SPL token can be used to buy tickets for the raffle. Note that after a raffle has been created, you're not able to change which token will be used for buying tickets. If you want to use SOL directly, specify the WSOL mint address as the token `So11111111111111111111111111111111111111112`, otherwise the spl token mint address such as USDC `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v`. If you used Wrapped SOL, the buyer can pay with SOL directly and it will automatically be converted to wrapped sol when you withdraw the proceeds. 
+
+### Collecting proceeds
+**SPL**
+You need to specify an ATA (associated token address) for the target token when withdrawing. Make sure you have at least a little bit of the token that was used for buying tickets for the given raffle in the target wallet, and copy the ATA of the token as the target. You can also run `spl-token account-info EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` to see the ATA. You can also run `spl-token accounts` to get a list of all SPL token accounts your wallet has.
+
+```bash
+spl-token account-info 29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao # SPL Token mint
+
+# OUTPUT
+Address: Xqxcg3VxxcwD3iz3JYKq4CGUwu6vMsNebEmcwA1HFgw # ATA, this is what you need as target
+Balance: 1
+Mint: 29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao # SPL Token mint
+Owner: PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy
+State: Initialized
+Delegation: (not set)
+Close authority: (not set)
+```
+
+**SOL**
+Proceeds will be withdrawn to WSOL after the raffle has finished. For this you will need an ATA for WSOL. The easiest way to create it is to wrap some SOL into WSOL, as this will create the token account for it automatically. Run the command `spl-token wrap 0.01` to wrap 0.01 SOL into WSOL. This will output `Wrapping 0.1 SOL into Czt28u7gMKPy2924adLsCiL9Hg65XqS2GDjDTQuCGNMf` where `Czt2...GNMf` is the token account address. Use this address for the `collect-proceeds` command as target when withdrawing proceeeds.
+
+
 
 ## Frontend
 The supplied frontend can be found in the `app` directory, written in React / TypeScript. Before running `start`, replace the `REACT_APP_DRAFFLE_PROGRAM_ID` in the `app/.env` file to your deployed draffle program address.

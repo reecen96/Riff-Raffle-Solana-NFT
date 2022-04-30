@@ -196,17 +196,17 @@ raffle address CU7ZkyUfKnxYjUY1Lo71sez2D1AJLqGoTbWtuUAst1qq (ended, still)
 raffle address Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U
 
 target/debug/draffle create-raffle \
-        29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao \
-        5000 \
-        "2022-04-27 0:00" \
-        --max-entrants 420 \
+        So11111111111111111111111111111111111111112 \
+        100000000 \
+        "2022-04-30 12:45" \
+        --max-entrants 750 \
         --provider.cluster devnet \
         --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
         --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
 
 target/debug/draffle add-prize \
-        Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U \
-        EEuZYa1dMq56W9Y1dUGR6Ub3u1Luj1kGVuh2ZtZoQxVu \
+        3kTRXdm2xKejFkNfKxw88GV2cGZaASfkjysJ48fwNsYJ \
+        GydV1CJPbNwMpdPenx5pJUEW51SDoHjHF1WmQBZuchQn \
         1 \
         0 \
         --provider.cluster devnet \
@@ -218,7 +218,14 @@ target/debug/draffle show-raffle \
     --provider.cluster devnet
 
 target/debug/draffle reveal-winners \
-        <raffle-address> \
+        C8MksYdZq3jasJoLkuZN6frT9TuZ2STzCkCCDqnrmKhv \
         --provider.cluster devnet \
-        --provider.wallet operations/operator-keypair.json \
-        --program-id "<program-id>"
+        --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
+        --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
+
+target/debug/draffle collect-proceeds \
+        HhppMJ3x9cdNnXPZKJTR8zCzWEmNx5RGLRgx94nt8AKQ \
+        Czt28u7gMKPy2924adLsCiL9Hg65XqS2GDjDTQuCGNMf \
+        --provider.cluster devnet \
+        --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
+        --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF

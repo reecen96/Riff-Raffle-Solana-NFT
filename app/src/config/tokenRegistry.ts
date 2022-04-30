@@ -94,6 +94,15 @@ const tokenRegistry = {
     decimals: 9,
     logoURI: '/resources/samo-logo.png',
     tags: []
+  },
+  'ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn': {
+    chainId: 101,
+    address: 'ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn',
+    symbol: 'QUACK',
+    name: 'QUACK',
+    decimals: 6,
+    logoURI: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn/logo.png',
+    tags: []
   }
 };
 

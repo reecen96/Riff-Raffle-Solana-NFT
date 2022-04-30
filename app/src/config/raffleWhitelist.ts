@@ -3,34 +3,22 @@ import { RaffleMetaData } from '../lib/types';
 import { TESTING } from './misc';
 
 const testWhitelist = new Map<string, RaffleMetaData>([
-  ['HWUx6BFVQmRD7AyfiEeeJgbh1kwq2g6ceJ2qWM9DUgZt', { name: 'Kollektors Collab' }],
-  ['9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw', { name: 'Art Raffle #1' }],
-  ['9JxLEGkcUwNT76mTa9Znbew2pCCrak3zekNzyJF2KN6C', { name: 'Multi Raffle' }],
   ['CU7ZkyUfKnxYjUY1Lo71sez2D1AJLqGoTbWtuUAst1qq', { name: 'Simple Raffle' }],
   ['Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U', { name: 'Second Raffle' }],
-  [
-    '3u7t4uGkMP1VW5obT78rgk74zdATTuNuy6BWPfRucLfj',
-    {
-      name: 'dRaffle for the win',
-      alternatePurchaseMints: [
-        new PublicKey('72UgZ7avdJZBbv3wR7hbWcFy6dyHHNAoJw7CimGA55Zh'),
-      ],
-    },
-  ],
-  [
-    '2mrwjEz67DXTWKaVPjWwkwVPtGRWyKrTeyK5VzintsC5',
-    { name: 'dRaffle with a loooooooooooooooong name' },
-  ],
-  [
-    '9FoUjfUpWwhHYaGKM9G5eYab7qow3oWqdo2G5Ehj3h5L',
-    {
-      name: 'Oh my dRaffle',
-      overviewImageUri: '/resources/001-mainnet-launch.gif',
-      alternatePurchaseMints: [
-        new PublicKey('So11111111111111111111111111111111111111112'),
-      ],
-    },
-  ],
+  ['C8MksYdZq3jasJoLkuZN6frT9TuZ2STzCkCCDqnrmKhv', { name: 'Third Raffle' }],
+  ['3kTRXdm2xKejFkNfKxw88GV2cGZaASfkjysJ48fwNsYJ', { name: 'SOL Raffle' }],
+  ['HhppMJ3x9cdNnXPZKJTR8zCzWEmNx5RGLRgx94nt8AKQ', { name: 'SOL Raffle 2' }],
+  ['5Po1nyZ9UAQzjS2KdV8b6Lwk3y9hwxrL1po2dvfn6dr9', { name: 'MEME Raffle' }],
+  // [
+  //   '9FoUjfUpWwhHYaGKM9G5eYab7qow3oWqdo2G5Ehj3h5L',
+  //   {
+  //     name: 'Oh my dRaffle',
+  //     overviewImageUri: '/resources/001-mainnet-launch.gif',
+  //     alternatePurchaseMints: [
+  //       new PublicKey('So11111111111111111111111111111111111111112'),
+  //     ],
+  //   },
+  // ],
 ]);
 
 const prodWhitelist = new Map<string, RaffleMetaData>([
