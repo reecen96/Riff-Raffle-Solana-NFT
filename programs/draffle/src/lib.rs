@@ -5,17 +5,10 @@ use anchor_lang::solana_program::sysvar;
 use anchor_spl::token::Token;
 use anchor_spl::token::{self, Mint, TokenAccount};
 
-pub const ENTRANTS_SIZE: u32 = 5000;
+pub const ENTRANTS_SIZE: u32 = 1000;
 pub const TIME_BUFFER: i64 = 1;
 
-// #[cfg(not(feature = "production"))]
-// declare_id!("5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1"); //original DJgm9u3C2eiWVeokxwzJ92GbS5j2qiqsZ16YMoe8ShXf
-
-// #[cfg(feature = "production")]
-// declare_id!("dRafA7ymQiLKjR5dmmdZC9RPX4EQUjqYFB3mWokRuDs");
-
-
-declare_id!("5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1");
+declare_id!("raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF");
 
 #[program]
 pub mod draffle {
@@ -168,11 +161,10 @@ pub mod draffle {
             return Err(error!(RaffleError::TicketHasNotWon));
         }
 
-        // FIXME FIX THIS SHIT WHAT DOES THIS CHECK FOR? COMMENTED DUE TO ERROR
-        // if ctx.accounts.winner_token_account.owner.key() != entrants.entrants[ticket_index as usize]
-        // {
-        //     return Err(error!(RaffleError::TokenAccountNotOwnedByWinner));
-        // }
+        if ctx.accounts.winner_token_account.owner.key() != entrants.entrants[ticket_index as usize]
+        {
+            return Err(error!(RaffleError::TokenAccountNotOwnedByWinner));
+        }
 
         if ctx.accounts.prize.amount == 0 {
             return Err(error!(RaffleError::NoPrize));
@@ -390,7 +382,7 @@ pub struct Raffle {
 pub struct Entrants {
     pub total: u32,
     pub max: u32,
-    pub entrants: [Pubkey; 5000], // ENTRANTS_SIZE
+    pub entrants: [Pubkey; 1000], // ENTRANTS_SIZE
 }
 
 impl Entrants {

@@ -18,10 +18,10 @@ const tokenRegistry = {
       imageURI: '/resources/solana-logo.gif',
     },
   },
-  zRpVjG5wMWrNhpTtSiGMz9iBaMTQDdaVGCFLmYqCs4U: {
+  '29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao': {
     chainId: 101,
-    address: 'zRpVjG5wMWrNhpTtSiGMz9iBaMTQDdaVGCFLmYqCs4U',
-    symbol: 'TT',
+    address: '29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao',
+    symbol: '$TT',
     name: 'TEST TOKEN',
     decimals: 6,
     logoURI:
@@ -35,7 +35,7 @@ const tokenRegistry = {
   '72UgZ7avdJZBbv3wR7hbWcFy6dyHHNAoJw7CimGA55Zh': {
     chainId: 101,
     address: '72UgZ7avdJZBbv3wR7hbWcFy6dyHHNAoJw7CimGA55Zh',
-    symbol: 'PM1',
+    symbol: '$PM1',
     name: 'USDT',
     decimals: 2,
     logoURI: `${process.env.REACT_APP_URL}/tether-usdt-logo.png`,
@@ -93,6 +93,15 @@ const tokenRegistry = {
     name: 'SAMO',
     decimals: 9,
     logoURI: '/resources/samo-logo.png',
+    tags: []
+  },
+  'ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn': {
+    chainId: 101,
+    address: 'ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn',
+    symbol: 'QUACK',
+    name: 'QUACK',
+    decimals: 6,
+    logoURI: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn/logo.png',
     tags: []
   }
 };
