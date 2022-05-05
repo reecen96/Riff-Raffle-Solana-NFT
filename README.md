@@ -42,7 +42,7 @@ If you see something missing - please submit a PR 🙏
   ([docs](https://docs.metaplex.com/candy-machine-v2/introduction)) - simple program (to use, not to build!) that issues a fixed number of NFTs at a fixed price, first come first serve. If Metaplex itself has too many knobs for you to think about, consider the Candy Machine instead.
 - A number of "managed" launch services exist: [Nova Launch](https://novalaunch.art/), [CrayonCreed](https://crayoncreed.com/). We've not tried and are not promoting either:)
 
-## 🤝 DAO
+## 🤝 DAO & Tokens
 
 - [Realms.today](https://realms.today/)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - DAO smart contract built by the Solana core team. Wizard to create either a multiset (Simple) or Bespoke (Technical) DAO
@@ -58,7 +58,18 @@ If you see something missing - please submit a PR 🙏
 - [Moralis](https://docs.moralis.io/introduction/readme)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Makes Blockchain API calls easy! Moralis provides managed backend for blockchain projects. Automatically syncing the balances of your users into the database
 
-## 🪙 Tokenomics
+## Cool utility for your collection
+
+- [draffle](https://github.com/draffle-io/draffle)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - dRaffle is a decentralized raffle protocol on Solana, which creates the necessary technical foundation to the dRaffle Luck Club.
+
+- [compitor](https://github.com/Aurory-Game/comptoir)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Open source market place & front end for secondary market transactions. Goodbye Magic Eden fees!
+
+- [token vesting](https://github.com/Bonfida/token-vesting)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Simple vesting contract (SVC) that allows you to deposit X SPL tokens that are unlocked to a specified public key at a certain block height/ slot.
+
+## 🪙 Liquidity Pools
 
 - [Raydium](https://raydium.io/liquidity/create/)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Raydium is a decentralised exchanged. Allows you to create a Liquidity pool to trade your SPL-token. Currently, only token pairs that contain the following Quote Tokens are supported: SOL, RAY, SRM, USDC, USDT
