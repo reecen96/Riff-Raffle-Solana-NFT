@@ -42,6 +42,11 @@ If you see something missing - please submit a PR 🙏
   ([docs](https://docs.metaplex.com/candy-machine-v2/introduction)) - simple program (to use, not to build!) that issues a fixed number of NFTs at a fixed price, first come first serve. If Metaplex itself has too many knobs for you to think about, consider the Candy Machine instead.
 - A number of "managed" launch services exist: [Nova Launch](https://novalaunch.art/), [CrayonCreed](https://crayoncreed.com/). We've not tried and are not promoting either:)
 
+## 📕 Tokenomics
+
+[Tokenomics Bible](https://rhys-nemo.gitbook.io/tokenomics-bible/)
+![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Notes on tokenomics, liquidity pools, Governance, DAOs & more.
+
 ## 🤝 DAO & Tokens
 
 - [Realms.today](https://realms.today/)
