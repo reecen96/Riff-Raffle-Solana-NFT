@@ -21,9 +21,9 @@ const tokenRegistry = {
   '29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao': {
     chainId: 101,
     address: '29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao',
-    symbol: '$TT',
-    name: 'TEST TOKEN',
-    decimals: 6,
+    symbol: '$A',
+    name: 'A TOKEN',
+    decimals: 9,
     logoURI:
       'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/9nusLQeFKiocswDt6NQsiErm1M43H2b8x6v5onhivqKv/logo.png',
     tags: [],
@@ -66,7 +66,7 @@ const tokenRegistry = {
     name: 'dRaffle Community Token',
     decimals: 6,
     logoURI: '/dRaffle-logo.png',
-    tags: []
+    tags: [],
   },
   '534G9F8dQuFJX6BMzzMPWBZEsZ7dZ5afjwVnTK5CTr4u': {
     chainId: 101,
@@ -75,35 +75,36 @@ const tokenRegistry = {
     name: 'TEST Community Token',
     decimals: 6,
     logoURI: '/dRaffle-logo.png',
-    tags: []
+    tags: [],
   },
-  'F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x': {
+  F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x: {
     chainId: 101,
     address: 'F6RHU6tNfzwpHbnYhx5szEY3vjJDyF5D1E6N9rrMgQ7x',
     symbol: '$TOKEN',
     name: 'SPL-Token Community Token',
     decimals: 0,
     logoURI: '/dRaffle-logo.png',
-    tags: []
+    tags: [],
   },
-  '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU': {
+  '4CHXmf6dkqL4pPY1DdmShw5yeow5DTM7mvZ9QXx4WkwD': {
     chainId: 101,
-    address: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+    address: '4CHXmf6dkqL4pPY1DdmShw5yeow5DTM7mvZ9QXx4WkwD',
     symbol: 'SAMO',
     name: 'SAMO',
     decimals: 9,
     logoURI: '/resources/samo-logo.png',
-    tags: []
+    tags: [],
   },
-  'ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn': {
+  ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn: {
     chainId: 101,
     address: 'ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn',
     symbol: 'QUACK',
-    name: 'QUACK',
+    name: 'QUACKOIN',
     decimals: 6,
-    logoURI: 'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn/logo.png',
-    tags: []
-  }
+    logoURI:
+      'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/ENNuzbdv7MiT9fjg7ApC2Fyf2F67PWww5Trm6A7W1BSn/logo.png',
+    tags: [],
+  },
 };
 
 export const tokenInfoMap = new Map(Object.entries(tokenRegistry));

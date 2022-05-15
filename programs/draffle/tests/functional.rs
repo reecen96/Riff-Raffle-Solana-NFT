@@ -27,6 +27,8 @@ async fn test_raffle() {
     // Fungible
     let second_prize_mint_keypair = Keypair::new();
 
+    let fee_acc_keypair = Keypair::new();
+
     let program_id = draffle_program_test.program_id;
     let payer_pk = draffle_program_test.context.payer.pubkey();
 
@@ -110,6 +112,7 @@ async fn test_raffle() {
                         creator: payer_pk,
                         proceeds,
                         proceeds_mint: proceeds_mint_keypair.pubkey(),
+                        fee_acc: fee_acc_keypair.pubkey(),
                         system_program: system_program::id(),
                         token_program: spl_token::id(),
                         rent: sysvar::rent::ID,
@@ -118,7 +121,7 @@ async fn test_raffle() {
                     data: draffle::instruction::CreateRaffle {
                         end_timestamp,
                         ticket_price,
-                        max_entrants: 5000,
+                        max_entrants: 1000,
                     }
                     .data(),
                 },
@@ -199,7 +202,9 @@ async fn test_raffle() {
                         proceeds,
                         buyer_token_account: user.proceeds_mint_ata,
                         buyer_transfer_authority: user.keypair.pubkey(),
+                        fee_acc: fee_acc_keypair.pubkey(),
                         token_program: spl_token::id(),
+                        system_program: system_program::id(),
                     }
                     .to_account_metas(None),
                     data: draffle::instruction::BuyTickets {
@@ -311,7 +316,10 @@ async fn test_raffle() {
                         raffle,
                         entrants: entrants_keypair.pubkey(),
                         prize: first_prize,
+                        payer: first_prize_winner,
                         winner_token_account: winner_prize_ata,
+                        fee_acc: fee_acc_keypair.pubkey(),
+                        system_program: system_program::id(),
                         token_program: spl_token::ID,
                     }
                     .to_account_metas(None),
@@ -369,8 +377,11 @@ async fn test_raffle() {
                     accounts: draffle::accounts::ClaimPrize {
                         raffle,
                         entrants: entrants_keypair.pubkey(),
+                        payer: payer_pk,
                         prize: second_prize,
                         winner_token_account: second_prize_winner_ata,
+                        fee_acc: fee_acc_keypair.pubkey(),
+                        system_program: system_program::id(),
                         token_program: spl_token::ID,
                     }
                     .to_account_metas(None),

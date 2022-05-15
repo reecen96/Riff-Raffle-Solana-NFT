@@ -2,7 +2,6 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useWallet } from '@solana/wallet-adapter-react';
-
 import RaffleCard from '../../components/RaffleCard';
 import { useStyles } from './styles';
 import { useRafflesStore } from '../../hooks/useRafflesStore';
@@ -10,8 +9,11 @@ import Screen from '../../components/layout/Screen';
 import { Raffle } from '../../lib/types';
 import { useViewport } from '../../hooks/useViewport';
 import FilterBar from './components/FilterBar';
+import topLogo from '../../assets/topLogo.gif';
 
 const ExploreRafflesScreen: FC = () => {
+  console.log(process.env.NODE_ENV);
+  console.log(process.env.REACT_APP_TESTING);
   const { device } = useViewport();
   const classes = useStyles({ device });
   const { publicKey } = useWallet();
@@ -42,9 +44,6 @@ const ExploreRafflesScreen: FC = () => {
   if (raffles.size === 0 && fetching)
     return (
       <>
-        <Typography variant="h1" className={classes.titleBar}>
-          Explore dRaffles
-        </Typography>
         <div className={classes.mainContent}>
           <CircularProgress color="secondary" />
         </div>
@@ -55,19 +54,14 @@ const ExploreRafflesScreen: FC = () => {
     return (
       <>
         <Typography variant="h1" className={classes.titleBar}>
-          Explore dRaffles
-        </Typography>
-        <Typography variant="h4" className={classes.mainContent}>
-          dRaffles will be coming soon!
+          More raffles will be coming soon!
         </Typography>
       </>
     );
 
   return (
     <>
-      <Typography variant="h1" className={classes.titleBar}>
-        Explore dRaffles
-      </Typography>
+      <img src={floateesLogo} alt={'disord-logo'} />
       <FilterBar
         hideEndedRaffles={hideEndedRaffles}
         setHideEndedRaffles={setHideEndedRaffles}
@@ -92,7 +86,7 @@ const ExploreRafflesScreen: FC = () => {
         </Grid>
       ) : (
         <Typography variant="h4" className={classes.mainContent}>
-          No dRaffles to display.
+          No raffles to display.
         </Typography>
       )}
     </>

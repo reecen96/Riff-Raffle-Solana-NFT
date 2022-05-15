@@ -1,4 +1,4 @@
-const adminNs = '/admin_panel';
+const adminNs = '/admin';
 
 const adminRoutes = {
   HOME: `${adminNs}/`,
@@ -6,10 +6,8 @@ const adminRoutes = {
 };
 
 const routes = {
-  HOME: '/',
   RAFFLES: '/raffles',
-  STAKE: '/stake',
-  TOOLS: '/tools',
+  AUCTIONS: '/auctions',
   ADMIN: adminRoutes,
 };
 

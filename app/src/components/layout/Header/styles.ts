@@ -21,7 +21,7 @@ export const useStyles = makeStyles<Theme, { device: DeviceType }>(
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      backgroundColor: 'rgba(6,18,98,1)',
+      backgroundColor: 'rgba(254,185,1,1)',
       alignItems: 'center',
       boxShadow: '0 0 10px 0 #000',
       zIndex: 99,
@@ -42,7 +42,7 @@ export const useStyles = makeStyles<Theme, { device: DeviceType }>(
       marginLeft: '30px',
       color: theme.palette.primary.main,
       '&:hover': {
-        textShadow: '0px 0px 5px #e86bff',
+        textShadow: '0px 0px 5px #000000',
         backgroundColor: 'transparent',
       },
     },

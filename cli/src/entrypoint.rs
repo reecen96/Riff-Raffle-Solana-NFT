@@ -21,6 +21,8 @@ use std::mem::size_of;
 use std::str::FromStr;
 use std::rc::Rc;
 
+const FEE_WALLET: &str = "CumSkyxk3mrC6voinTHf3RVj46Az5C65kHpCRwUxmHJ5";
+
 #[derive(Default, Debug, Parser)]
 pub struct ConfigOverride {
     /// Cluster override.
@@ -111,6 +113,7 @@ pub fn entry(opts: Opts) -> Result<()> {
             end_date_utc,
             entrants_keypair,
             max_entrants,
+            // fee_acc, hardcoded into instruction
         } => create_raffle(
             program_id,
             &program_client,
@@ -119,6 +122,7 @@ pub fn entry(opts: Opts) -> Result<()> {
             end_date_utc,
             entrants_keypair,
             max_entrants,
+            // fee_acc,
         ),
         Command::AddPrize {
             raffle,
@@ -177,6 +181,7 @@ fn create_raffle(
     end_date_utc: String,
     entrants_keypair: Option<String>,
     max_entrants: Option<u32>,
+    // fee_acc: Pubkey,
 ) -> Result<()> {
     let entrants_keypair = match entrants_keypair {
         Some(entrants_keypair) => {
@@ -202,6 +207,7 @@ fn create_raffle(
             .data,
     )
     .unwrap();
+    println!("fuck1");
     let date_time = NaiveDateTime::parse_from_str(&end_date_utc, "%Y-%m-%d %H:%M")?;
     let end_timestamp: i64 = date_time.timestamp();
     println!(
@@ -226,6 +232,7 @@ fn create_raffle(
             creator: program_client.payer(),
             proceeds,
             proceeds_mint,
+            fee_acc: Pubkey::from_str(FEE_WALLET).unwrap(),
             system_program: system_program::id(),
             token_program: spl_token::id(),
             rent: sysvar::rent::ID,

@@ -3,11 +3,13 @@ import {
   Token,
   TOKEN_PROGRAM_ID,
 } from '@solana/spl-token';
-import { TransactionInstruction } from '@solana/web3.js';
+import { TransactionInstruction, SystemProgram, PublicKey } from '@solana/web3.js';
 
 import { DraffleProgram } from '../../providers/ProgramApisProvider';
 import { createOwnAssociatedTokenAccountInstruction } from '../accounts';
 import { Raffle } from '../types';
+
+const FEE_WALLET = new PublicKey('CumSkyxk3mrC6voinTHf3RVj46Az5C65kHpCRwUxmHJ5');
 
 export const claimPrize = async (
   draffleClient: DraffleProgram,
@@ -47,6 +49,9 @@ export const claimPrize = async (
       prize: prize.address,
       winnerTokenAccount: ata,
       tokenProgram: TOKEN_PROGRAM_ID,
+      systemProgram: SystemProgram.programId,
+      feeAcc: FEE_WALLET,
+      payer: draffleClient.provider.wallet.publicKey,
     },
     instructions,
   });

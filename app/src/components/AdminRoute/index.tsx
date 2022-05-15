@@ -19,10 +19,10 @@ const AdminRoute: FC<RouteProps> = (props) => {
   useEffect(() => {
     if (
       (!!publicKey && !isAdmin(publicKey)) ||
-      (!publicKey && pathname !== routes.HOME)
+      (!publicKey && pathname !== routes.RAFFLES)
     ) {
       disconnect();
-      push(routes.HOME);
+      push(routes.RAFFLES);
     }
   }, [publicKey, pathname, disconnect, push]);
   return <Route {...props} />;

@@ -21,10 +21,8 @@ export interface HeaderProps {
 }
 
 const NAV_LINKS_LIST = [
-  { label: 'Home', target: routes.HOME },
-  { label: 'Explore', target: routes.RAFFLES },
-  { label: 'Stake', target: routes.STAKE },
-  { label: 'Tools', target: routes.TOOLS },
+  { label: 'Raffle', target: routes.RAFFLES },
+  { label: 'Auction', target: routes.AUCTIONS },
   { label: 'Admin Panel', target: routes.ADMIN.HOME, admin: true },
 ];
 
@@ -55,7 +53,7 @@ const Header: FC<HeaderProps> = ({ onBackNavigation }) => {
                 <ChevronLeft />
               </IconButton>
             ) : (
-              <IconButton size={'medium'} onClick={() => push(routes.HOME)}>
+              <IconButton size={'medium'} onClick={() => push(routes.RAFFLES)}>
                 <Home />
               </IconButton>
             )}
@@ -73,11 +71,11 @@ const Header: FC<HeaderProps> = ({ onBackNavigation }) => {
           <>
             <div>
               <IconButton
-                onClick={() => push(routes.HOME)}
+                onClick={() => push(routes.RAFFLES)}
                 className={classes.homeButton}
               >
                 <img
-                  src="/dRaffle-LC-banner.png"
+                  src="/logo_navbar.png"
                   alt={'Site banner'}
                   className={classes.homeButtonIcon}
                 />

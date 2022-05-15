@@ -3,6 +3,7 @@ import { Button, ButtonProps } from '@material-ui/core';
 import { useHistory } from 'react-router';
 
 import { useStyles } from './styles';
+import { routes } from '../../../router/routes';
 
 export interface NavButtonProps extends ButtonProps {
   label: string;
@@ -31,6 +32,7 @@ const NavButton: FC<NavButtonProps> = ({
         if (onClick) onClick(event);
       }}
       variant="text"
+      disabled={target === routes.AUCTIONS}
       disableRipple
       size={size}
       className={`${classes.navButtons} ${className}`}

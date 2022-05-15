@@ -1,184 +1,235 @@
 # dRaffle
+## Components
 
-## How to draffle
-### Creating raffle program
-- Make sure you are using anchor `0.23.0` by `avm install 0.23.0 && avm use 0.23.0`. This fork has been upgraded to that version.
-- The keys in the `scripts/sample_accounts` directory are passively used, eg. only used to store the public keys of those accounts. They are used to create spl-tokens (such as the spl-token used to buy tickets for the raffles) and to create NFTs to add as prizes to a given raffle.
-- The key `scripts/cc-draffle-deploy-keypair.json` is the sudo key for the program currently deployed on `devnet`. **If you're gonna clone this repo, be so kind to generate a new one and not mess with mine**. This goes for all other keys as well. Thanks.
-- The CLI has hardcoded values for the network and target program id. You can change this in the CLI's `entrypoint.rs`, or execute commands with appending the `--provider.cluster devnet/localnet/mainnet-beta` flag. The `program id` of the deployed raffle program is also hardcoded in the CLI, change it and build again, or use the `--program-id <PROGRAM_ID>` flag with each command.
+- The dRaffle program, to create raffles
+- The dRaffle cli, to be able to interact with all the draffle commands to create raffle and add prizes
+- The dRaffle frontend app used to interact with the raffles from the user side
+
+# Operations Guide
+This document outlines how the Draffle program can be deployed and operated. Includes deploying the contract and managing raffles end-to-end.
+
+## Program
+The Draffle program can be deployed as a standalone instance. This means deploying the draffle contract to the chain. One contract (program) can be used for multiple raffle frontends as the frontend has filtering (whitelist) capability per raffle.
+
+1. **Create required keypairs**
+    There are three main keypairs that need to be created for this walkthrough. Adjust your commands accordingly if you won't be using a custom program address. You can rename the outputted keys, or change the commands outlined here accordingly as you go.
+
+    **Program address**
+
+    This will be the address (pubkey) of the program that will be deployed. It's not required to specify this manually, but it allows for giving your programs a custom address.
+    ```bash
+    solana-keygen grind --ignore-case --starts-with RAF:1
+    mv <program-keypair.json> operations/
+    solana address -k operations/program-keypair.json
+    ```
+
+    **Deployer**
+    This keypair should be used for deploying the program. It's good security practice to seperate deployment from day-to-day activities.
+    ```bash
+    solana-keygen grind --ignore-case --starts-with DEP:1
+    mv <deploy-keypair.json> operations/
+    solana address -k operations/deploy-keypair.json
+    solana config set -k operations/deploy-keypair.json
+    ```
+    Make sure to fund this wallet with enough SOL for deploying the program, you will need about `7.2 SOL`. On devnet use the command `solana airdrop 2 -k operations/deploy-keypair.json`.
+
+    **Operator**
+    This keypair should be used for doing the day-to-day management as anybody can create raffles and add prizes.
+    ```bash
+    solana-keygen grind --ignore-case --starts-with PER:1
+    mv <operator-keypair.json> operations/
+    solana address -k operations/operator-keypair.json
+    ```
+
+1. **Update program address in the codebase**
+    - Make sure both `wallet` & `draffle program id` are matching your use case in `Anchor.toml`. Use the path to `deploy-keypair.json` for the `wallet`, and use `program-keypair.json` address for the `program id`. 
+    - Make sure to update the contract's `declare_id!("<address>")` to the `program-keypair.json` address. I also recommend searching for `raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF` in VSCode and doing replace-all with the new value.
+
+1. **Build & Deploy**
+    ```
+    solana config set -k operations/deploy-keypair.json
+    anchor build
+    solana program deploy --program-id operations/program-keypair.json target/deploy/draffle.so
+    ```
+
+## CLI
+- There is a provided CLI that is to be used for managing raffles. To get information about what the CLI is capable of, use the `--help` flag.
+- You must build the CLI from source using the `cargo build` command from the root directory of the repo. The executable then can be used by `target/debug/draffle <command>`.
 
 
-#### Setup
-Clone this repo and `cd` into the root directory. Run `anchor build` and `anchor deploy` to build & deploy. As usual, after deployment _(because you changed the program key didn't you)_ make sure to change all occurances of it, eg. `declare_id`. I recommend searching for `raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF` in VSCode and doing replace-all with the new value. To build the CLI tool, run `cargo build` from the same [root] directory (and build again if you change anything in there down the road).
-
-1. Create a raffle
-After the main raffle program has been deployed, you can create raffles by using the following command. To see all available commands, run the CLI with the `--help` flag as usual.
-
+Any CLI command you execute must have the following flags.
 ```bash
-${SCRIPT_PATH}/../target/debug/draffle create-raffle \
-    ${SPL_ADDRESS} \
-    1 \
-    "2022-04-22 14:55" \
-    --provider.cluster devnet \
-    --provider.wallet scripts/draffle-operations-keypair.json
+--provider.cluster <devnet/localnet/mainnet-beta> \
+--provider.wallet <path_to_keypair.json> \
+--program-id <program_id>
 ```
 
-Explanation
-```bash
-${SCRIPT_PATH}/../target/debug/draffle create-raffle \ # path to draffle CLI with command create-raffle
-    ${SPL_ADDRESS} \ # Token mint to pay for the tickets with
-    1 \ # Cost per ticket in spl-token
-    "2022-04-22 15:55" \ # Raffle end time, UTC timezone. double check this if you get a 0x1771 error.
-    --provider.cluster devnet \ # Specify network if you want
-    --provider.wallet scripts/cc-draffle-deploy-keypair.json # Specify which keypair to use for the command, otherwise it'll use your default solana CLI config
-```
+## Raffles
+Switch the CLI to the `operator-keypair.json` via `solana config set -k operations/operator-keypair.json` and airdrop some SOL to it.
 
-Output
-```bash
-5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1 # Program ID
-Raffle address: CGraPGpJhZ9M35weYyQgnVVnBeyv1btyMsp8eAdD6Kr1 # Raffle address. Note this down.
-Cluster clock unix_timestamp: 1649035423, raffle end_timestamp: 1649036100
-```
+### Customization
+Note: None of these attributes can be changed after a raffle has been created.
+- A raffle can use SOL or any SPL token for buying tickets.
+- The max number of tickets available per raffle defaults to 5000. It can be customized by using the `--max-entrants` flag as seen below.
+- The price of a ticket in the given SPL token or SOL can be specified. Make sure to match the decimals of the token in all occurances.
 
-2. Create token for prize _(development)_
-After the raffle has been created, you can use the raffle address (see above) to add prizes to it. A prize can be either a fungible or non-fungible token (composability ftw) and there can be multiple prizes at once. You will need the mint address of the prize, and you'll need to own it to be able to put it into the raffle (duh). In a production environment you would use actual tokens and NFTs, but for development we can just create our own ad-hoc.
 
-Here's some examples of how you can create tokens ad-hoc to add to the raffle (again, create new keypairs because these are already used). Export the `SCRIPT_PATH` variable into your env with `export SCRIPT_PATH="/Users/username/.../draffle/scripts"`.
-```bash
-# Load token pubkey into env variable
-NFT1_ADDRESS="$(solana address -k ${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json)" 
-echo "${NFT1_ADDRESS}"
+1. Create raffle
+    Each raffle creation costs about 1.2 SOL.
+    ```bash
+    target/debug/draffle create-raffle \
+        EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v \
+        1 \
+        "2022-04-22 14:55" \
+        --max-entrants 420 \
+        --provider.cluster devnet \
+        --provider.wallet operations/keypair.json \
+        --program-id <program-id>
 
-# Create token with 0 decimals and mint
-spl-token create-token ${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json --decimals 0
-spl-token create-account ${NFT1_ADDRESS}
-spl-token mint ${NFT1_ADDRESS} 1
+    # EXPLANATION
+    target/debug/draffle create-raffle \
+        EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v \ # SPL token mint address that can be used to buy tickets, this is USDC
+        1 \ # Cost per ticket in given token
+        "2022-04-22 14:55" \ # Raffle end date in UTC timezone. Double check this if you encounter a 0x1771 error.
+        --max-entrants 420 \ # Max tickets available for given raffle
+        --provider.cluster devnet \ # Cluster
+        --provider.wallet operations/keypair.json # Keypair to execute command with
+        --program-id <program-id> # Deployed raffle program
 
-# Use backtrace flag to get more info if shit goes south, because it will
-# Use metaplex CLI tool to create metadata account for the token with the specified details
-# using the local .json metadata that you can create by running `yarn generateNFTJson` from the `app` directory
-# Keypair needs to have update authority over the token
-RUST_BACKTRACE=full ${SCRIPT_PATH}/metaplex-token-metadata-test-client create_metadata_accounts --name "Degen Ape #1" --symbol "DA" --uri "${REACT_APP_URL}/nfts/degenApe1.json" --url "${REACT_APP_RPC_ENDPOINT}" --mint "${SCRIPT_PATH}/sample_accounts/prize-nft1-keypair.json" --keypair scripts/cc-draffle-deploy-keypair.json
+    # OUTPUT
+    5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1 # Program ID
+    Raffle address: CGraPGpJhZ9M35weYyQgnVVnBeyv1btyMsp8eAdD6Kr1 # Raffle address. Note this down.
+    Cluster clock unix_timestamp: 1649035423, raffle end_timestamp: 1649036100
+    ```
+    After a raffle has been created, make sure to take a note of the `raffle address` outputted.
 
-# Now go to an explorer, plug in the token's address and check if everything looks good
-```
+1. Add prize to raffle
+    There can be multiple prizes to a single raffle. The prize(s) can be NFTs or fungible tokens. The wallet adding the prize has to own that token, which will be transferred to the raffle.
+    ```bash
+    target/debug/draffle add-prize \
+        <raffle-address> \
+        <prize-mint> \
+        1 \
+        0 \
+        --provider.cluster devnet \
+        --provider.wallet operations/keypair.json
+        --program-id <program-id>
 
-3. Add prize(s)
-To add a prize to a raffle, run the following command.
-```bash
-${SCRIPT_PATH}/../target/debug/draffle add-prize \
-    GopXKxDwCaST9FHR8RBmmqCFdUAvRLNVPvkiLjgHNaAS \
-    ${NFT2_ADDRESS} \
-    1 0 \
-    --provider.wallet scripts/cc-draffle-deploy-keypair.json
+    # EXPLANATION
+    target/debug/draffle add-prize \
+        <raffle-address> \ # Raffle address (pubkey)
+        <prize-mint> \ # Token (pubkey) of the prize to be added. Mint address in case of fungible tokens.
+        1 \ # How many of the token should be added as prize. Use 1 for NFTs
+        0 \ # Position in the array of prizes. Starting at 0, 1, 2...
+        --provider.cluster devnet \
+        --provider.wallet operations/operator-keypair.json
+        --program-id <program-id>
+    ```
 
-# EXAMPLE
-${SCRIPT_PATH}/../target/debug/draffle add-prize \
-    9JxLEGkcUwNT76mTa9Znbew2pCCrak3zekNzyJF2KN6C \
-    3UnvLCvMqhEJxTSEAV2JogDKejghHpG1o28Sa3hq6AQH \
-    1 0 \
-    --provider.wallet scripts/draffle-operations-keypair.json \
+1. Check raffle state
+    After you've added a prize (or at any point really) you can check the details of the raffle with the following command
+    ```bash
+    target/debug/draffle show-raffle \
+    <raffle-address> \
     --provider.cluster devnet
-```
 
-Explanation
-```bash
-${SCRIPT_PATH}/../target/debug/draffle add-prize \ # add-prize command of the Draffle CLI
-    GopXKxDwCaST9FHR8RBmmqCFdUAvRLNVPvkiLjgHNaAS \ # Raffle ID from before
-    ${NFT2_ADDRESS} \ # Pubkey of token to add as a prize, you must own this
-    1 0 \ # How many to add, at what position in the prizes array. Here we add 1 at position 0. If you already have a prize, increase position accordingly (arrays start at 0 yea)
-    --provider.wallet scripts/cc-draffle-deploy-keypair.json # Specify which wallet to use
-```
+    # OUTPUT
+    5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1 # Raffle program ID
+    Raffle {
+        creator: 3Xaq71yEsJzyXmvwPf3fd7DywMULQvc2zYcRejDsdfQ8, # Should be your operator-keypair address
+        total_prizes: 1,
+        claimed_prizes: 0,
+        randomness: None,
+        end_timestamp: 1649036100, # End timestamp in UNIX time
+        ticket_price: 1,
+        entrants: H8p1wcT3aZ8h9Q9x9w95VPqGedYjWKHFSsRvxvDVzJWT, # Account storing entrants
+    }
+    ```
 
-4. Check raffle
-After you've added a prize (or at any point really) you can check the details of the raffle with the following command
-```bash
-${SCRIPT_PATH}/../target/debug/draffle show-raffle <raffle pubkey>
-# eg. ${SCRIPT_PATH}/../target/debug/draffle show-raffle 8rsoqPazYrmx4VdcEcPoD4oHsQ16tbfm6La2j7QoSoFw
-```
+    At this point you should spin up the frontend to check on the raffle at the `/admin_panel` path.
 
-Output
-```
-5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1 # Raffle program ID
-Raffle {
-    creator: 3Xaq71yEsJzyXmvwPf3fd7DywMULQvc2zYcRejDsdfQ8,
-    total_prizes: 1,
-    claimed_prizes: 0,
-    randomness: None,
-    end_timestamp: 1649036100,
-    ticket_price: 1,
-    entrants: H8p1wcT3aZ8h9Q9x9w95VPqGedYjWKHFSsRvxvDVzJWT, # possibly the PDA of the entrants list
-}
-```
-
-5. Reveal Winners
-```bash
-${SCRIPT_PATH}/../target/debug/draffle reveal-winners \
-    --provider.cluster devnet \
-    9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw
-```
-Where `9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw` is the raffle id. This can only be done after a raffle has ended and the buffer period has completed. If you get an error executing this, try again later.
+1. Reveal Winners
+    This can only be done after a raffle has ended and the buffer period has completed. If you get an error executing this, try again later.
+    ```bash
+    target/debug/draffle reveal-winners \
+        <raffle-address> \
+        --provider.cluster devnet \
+        --provider.wallet operations/operator-keypair.json \
+        --program-id <program-id>
+    ```
 
 6. Collect proceeds
+    ```bash
+    target/debug/draffle collect-proceeds \
+        <raffle-address> \
+        <target-token-account> \
+        --provider.cluster devnet \
+        --provider.wallet scripts/operator-keypair.json \
+        --program-id <program-id>
+
+    # EXPLANATION
+    target/debug/draffle collect-proceeds \
+        <raffle-address> \ # Raffle address
+        <target-token-account> \ # The token account matching the token used to pay for tickets, where the proceeds will be deposited.
+        --provider.cluster devnet \
+        --provider.wallet scripts/operator-keypair.json \
+        --program-id <program-id>
+    ```
+
+### Token for buying tickets
+Any SPL token can be used to buy tickets for the raffle. Note that after a raffle has been created, you're not able to change which token will be used for buying tickets. If you want to use SOL directly, specify the WSOL mint address as the token `So11111111111111111111111111111111111111112`, otherwise the spl token mint address such as USDC `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v`. If you used Wrapped SOL, the buyer can pay with SOL directly and it will automatically be converted to wrapped sol when you withdraw the proceeds. 
+
+### Collecting proceeds
+**SPL**
+You need to specify an ATA (associated token address) for the target token when withdrawing. Make sure you have at least a little bit of the token that was used for buying tickets for the given raffle in the target wallet, and copy the ATA of the token as the target. You can also run `spl-token account-info EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` to see the ATA. You can also run `spl-token accounts` to get a list of all SPL token accounts your wallet has.
+
 ```bash
-${SCRIPT_PATH}/../target/debug/draffle collect-proceeds \
-    --provider.cluster devnet \
-    --provider.wallet scripts/cc-draffle-deploy-keypair.json \
-    9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw \
-    95JznvF8WXN8WDqq7LXJ2n5C6qmgNbH5s2UFqfvx9Wnf
+spl-token account-info 29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao # SPL Token mint
+
+# OUTPUT
+Address: Xqxcg3VxxcwD3iz3JYKq4CGUwu6vMsNebEmcwA1HFgw # ATA, this is what you need as target
+Balance: 1
+Mint: 29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao # SPL Token mint
+Owner: PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy
+State: Initialized
+Delegation: (not set)
+Close authority: (not set)
 ```
 
-Explanation
+**SOL**
+Proceeds will be withdrawn to WSOL after the raffle has finished. For this you will need an ATA for WSOL. The easiest way to create it is to wrap some SOL into WSOL, as this will create the token account for it automatically. Run the command `spl-token wrap 0.01` to wrap 0.01 SOL into WSOL. This will output `Wrapping 0.1 SOL into Czt28u7gMKPy2924adLsCiL9Hg65XqS2GDjDTQuCGNMf` where `Czt2...GNMf` is the token account address. Use this address for the `collect-proceeds` command as target when withdrawing proceeeds.
+
+
+
+## Frontend
+The supplied frontend can be found in the `app` directory, written in React / TypeScript. Before running `start`, replace the `REACT_APP_DRAFFLE_PROGRAM_ID` in the `app/.env` file to your deployed draffle program address.
+
 ```bash
-${SCRIPT_PATH}/../target/debug/draffle collect-proceeds \ # collect-proceeds command
-    --provider.cluster devnet \ # specify network
-    --provider.wallet scripts/cc-draffle-deploy-keypair.json \ # specify wallet to sign the transaction, this is required
-    9wivTLnjau6FewhxNnhnCVm783D4mj4myUrUj5qtr1Lw \ # raffle id
-    95JznvF8WXN8WDqq7LXJ2n5C6qmgNbH5s2UFqfvx9Wnf # target token account where the proceeds should go
+cd app
+yarn install
+yarn build
+yarn start
 ```
 
+### SPL Token
+You must specify all custom SPL tokens used for your raffles within the `app/src/config/tokenRegistry.ts` file as seen in previous examples.
 
-#### Testing on localnet
+### Raffles view
+The `.env` file contains a `REACT_APP_TESTING` variable. This influences if the `testWhitelist` or `prodWhitelist` will be used in the `app/src/config/raffleWhitelist.ts` file. This defines which raffles show up on the public raffle list screen. Each raffle's picture and name can be customized through the frontend as seen in the examples within the file.
+
+### Admin view
+The admin view is available through the `/admin_panel` URL path. Its main functionality is to trigger the "reveal winner" call for the given raffle, which can also be done through the CLI. It also shows _all_ raffles the deployed raffle program is handling.
+
+
+## Testing on localnet
 To develop on a local validator, make sure to change the network URL that's hardcoded in the CLI or use the flag as seen above when executing commands.
 Spin up a local validator like so. This will deploy your program (make sure to change the address to yours, you know how anchor deploy works), and also clone the required contracts from mainnet to the local validator, such as the metaplex token metadata program.
 ```bash
 solana-test-validator \
---bpf-program 5tA54UMYd1tBSJ2VTaUBFE7mWZsM3n1pPucMyzvguQU1 target/deploy/draffle.so \
+--bpf-program raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF target/deploy/draffle.so \
 --bpf-program metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s scripts/metaplex_token_metadata.so \
 --clone H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG \
 --clone GVXRSBjFk6e6J3NbVPXohDJetcTjaeeuykUpbQF8UoMU \
 --clone 3NBReDRTLKMQEKiLD5tGcx4kXbTf88b7f2xLS9UuGjym \
 --url mainnet-beta
 ```
-
-# Original docs
-
-dRaffle is a decentralized raffle protocol on Solana, which creates the necessary technical foundation to the dRaffle Luck Club. dRaffle is the first of its kind open-source transparent system to allow raffling of any token, in any amount, any mint, unlimited number of participants or number of prizes.
-
-[dRaffle dApp](https://www.draffle.io/)
-
-[Litepaper](https://www.draffle.io/dRaffle-litepaper.pdf)
-
-[Solana ignition hackathon entry](https://devpost.com/software/draffle-luck-club)
-
-[Discord](https://discord.com/invite/BwPsaDzbNR)
-
-## Components
-
-- The dRaffle program, to create raffles
-- The dRaffle cli, to be able to interact with all the draffle commands to create raffle and add prizes
-- The community staking program, to allow user to stake and earn rewards on the dRaffle community token, which is a free gift for early adopters and will give access to raffles
-
-## Localnet usage
-
-`scripts/start_dev.sh` sets up an entire environment with the program raffles and NFTs in order to functionaly test the app
-
-Before running it make sure the programs are built with `anchor build`
-
-When `start_dev.sh` is running the react app will show a set of test raffles with various prizes and raffle end times
-
-## Notes
-
-- metaplex-token-metadata-test-client needs to be executable chmod +x scripts/metaplex-token-metadata-test-client, build it from source for other OSes than linux with [metaplex-program-library](https://github.com/metaplex-foundation/metaplex-program-library) using `cargo build --release`
-- install gdata on MacOS in order to be able to run start_dev.sh https://www.shell-tips.com/linux/how-to-format-date-and-time-in-linux-macos-and-bash/
-- To use your own deployment, create a new program keypair, update declare_id! in [programs/draffle/src/lib.rs](programs/draffle/src/lib.rs) and use the (cli commands)[cli/README.md] with your program id! Run the react app with `REACT_APP_DRAFFLE_PROGRAM_ID` set to your new program id.

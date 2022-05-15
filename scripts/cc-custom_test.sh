@@ -190,42 +190,61 @@ solana-test-validator \
 
 
 
-
 spl-token 29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao (deployer-keypair authority)
-raffle address CU7ZkyUfKnxYjUY1Lo71sez2D1AJLqGoTbWtuUAst1qq (ended, still)
-raffle address Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U
 
+
+# SOL RAFFLE 0.1 SOL ticket
 target/debug/draffle create-raffle \
-        So11111111111111111111111111111111111111112 \
+        29a6AWBP44QUnfZKNpWSU7tkfrfDBym94EtCZBPvJ2ao \
         100000000 \
-        "2022-04-30 12:45" \
-        --max-entrants 750 \
+        "2022-05-12 09:00" \
+        --max-entrants 100 \
         --provider.cluster devnet \
         --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
         --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
 
+# SOL RAFFE
 target/debug/draffle add-prize \
-        3kTRXdm2xKejFkNfKxw88GV2cGZaASfkjysJ48fwNsYJ \
-        GydV1CJPbNwMpdPenx5pJUEW51SDoHjHF1WmQBZuchQn \
+        EXJPFGP7FSUVdG1zEnbcCDnjpm7QBBsS6uBSRL3wv362 \
+        6UskN8KUyV6vohyvMWFx3GTmKRkgDPKWUcZhHe4sg8Uy \
         1 \
         0 \
-        --provider.cluster devnet \
+        --provider.cluster mainnet \
         --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
         --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
 
 target/debug/draffle show-raffle \
-    Aq5cZhbR28TYqt9SVAopGQVq5Q64BLmZE3kURxCHuv3U \
+    2yL3G9UuT9sEXJkSa67mnur2cjnteVRpCZRfSeNXvED4 \
     --provider.cluster devnet
 
 target/debug/draffle reveal-winners \
-        C8MksYdZq3jasJoLkuZN6frT9TuZ2STzCkCCDqnrmKhv \
+        2yL3G9UuT9sEXJkSa67mnur2cjnteVRpCZRfSeNXvED4 \
         --provider.cluster devnet \
         --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
         --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
 
 target/debug/draffle collect-proceeds \
-        HhppMJ3x9cdNnXPZKJTR8zCzWEmNx5RGLRgx94nt8AKQ \
+        5Po1nyZ9UAQzjS2KdV8b6Lwk3y9hwxrL1po2dvfn6dr9 \
         Czt28u7gMKPy2924adLsCiL9Hg65XqS2GDjDTQuCGNMf \
         --provider.cluster devnet \
         --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
         --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF
+
+target/debug/draffle close-entrants \
+    --provider.cluster devnet \
+    --provider.wallet operations/PerrXcLkieKrGRuodwhYikfnYJi9cTNiRyK5hrufjXy.json \
+    --program-id raFv43GLKy2ySi5oVExZxFGwdbKRRaDQBqikiY9YbVF \
+    5Po1nyZ9UAQzjS2KdV8b6Lwk3y9hwxrL1po2dvfn6dr9
+
+
+lamports per sol 1000000000
+
+devnet test token 6 decimals 4CHXmf6dkqL4pPY1DdmShw5yeow5DTM7mvZ9QXx4WkwD
+
+
+GenesysGo devnet endpoint: https://psytrbhymqlkfrhudd.dev.genesysgo.net:8899/
+
+
+# update frontend idls
+rm app/src/lib/idl/draffle.json && rm app/src/lib/idl/draffle.ts
+cp target/idl/draffle.json app/src/lib/idl/draffle.json && cp target/types/draffle.ts app/src/lib/idl/draffle.ts

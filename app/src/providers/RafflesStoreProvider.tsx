@@ -15,7 +15,12 @@ import {
 } from './ProgramApisProvider';
 import { useProgramApis } from '../hooks/useProgramApis';
 import { Entrant, Raffle, RaffleMetaData } from '../lib/types';
-import { fetchPrizes, fetchProceedsAccount, getRaffleProgramAccounts, toEntrantsProcessed } from '../lib/store';
+import {
+  fetchPrizes,
+  fetchProceedsAccount,
+  getRaffleProgramAccounts,
+  toEntrantsProcessed,
+} from '../lib/store';
 import { cloneDeep } from 'lodash';
 import { areEqualObjects } from '../lib/utils';
 import { useConnection } from '@solana/wallet-adapter-react';
@@ -72,7 +77,11 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
 
     entrants = toEntrantsProcessed(entrantsDataRaw);
 
-    const prizes = await fetchPrizes(raffleRaw.publicKey, draffleClient, raffleRaw.account.totalPrizes);
+    const prizes = await fetchPrizes(
+      raffleRaw.publicKey,
+      draffleClient,
+      raffleRaw.account.totalPrizes
+    );
 
     const endTimestamp = new Date(
       raffleRaw.account.endTimestamp.toNumber() * 1000
@@ -99,7 +108,8 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
   };
 
   const fetchAllRaffles = useCallback(
-    async (showAll: boolean = false) => { // LOOK HERE
+    async (showAll: boolean = false) => {
+      // LOOK HERE
       setFetching(true);
       let raffleDataRawProgramAccounts: ProgramAccount<RaffleDataRaw>[] = [];
       let entrantsDataRawProgramAccounts: ProgramAccount<EntrantsDataRaw>[] =
@@ -112,10 +122,13 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
       }
 
       raffleDataRawProgramAccounts = raffleDataRawProgramAccounts.filter(
-        ({ publicKey }) =>
-          showAll || RAFFLES_WHITELIST.has(publicKey.toBase58())
+        ({ publicKey }) => {
+          console.log({ showAll });
+          console.log(RAFFLES_WHITELIST.has(publicKey.toBase58()));
+          return showAll || RAFFLES_WHITELIST.has(publicKey.toBase58());
+        }
       );
-      console.log(raffleDataRawProgramAccounts);
+      console.log({ raffleDataRawProgramAccounts });
 
       const newRaffles = (
         await Promise.all(
@@ -171,7 +184,7 @@ const RafflesStoreProvider: FC = ({ children = null as any }) => {
   );
 
   useEffect(() => {
-    fetchAllRaffles(true);
+    fetchAllRaffles();
   }, [fetchAllRaffles]);
 
   return (
