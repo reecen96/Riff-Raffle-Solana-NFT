@@ -1,8 +1,8 @@
-[![Awesome](images/awesome.svg)](https://github.com/sindresorhus/awesome)
+[![Awesome](images/awesome.svg)](https://github.com/reecen96/awesome-solana-nfts-v2)
 
 # 🦄 Awesome Solana NFTs
 
-A curated list of resources for builders / artists hacking NFTs on Solana.
+An updated curated list of resources for builders / artists hacking NFTs on Solana.
 
 - ✅ Includes: open standards, protocols, OSS repos, community-built tools
 - ✋ Excludes: individual drops, future promises (without actual code / working product)
