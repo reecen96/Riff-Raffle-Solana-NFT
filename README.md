@@ -42,6 +42,18 @@ If you see something missing - please submit a PR 🙏
   ([docs](https://docs.metaplex.com/candy-machine-v2/introduction)) - simple program (to use, not to build!) that issues a fixed number of NFTs at a fixed price, first come first serve. If Metaplex itself has too many knobs for you to think about, consider the Candy Machine instead.
 - A number of "managed" launch services exist: [Nova Launch](https://novalaunch.art/), [CrayonCreed](https://crayoncreed.com/). We've not tried and are not promoting either:)
 
+## NFT Utility
+
+- [Riff Raffle](https://github.com/reecen96/Riff-Raffle-Solana-NFT)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Decentralized Raffle system on the Solana Blockchain. Raffle off NFTs or SPL tokens - purchase
+  tickets using Solana or SPL tokens.
+
+- [compitor](https://github.com/Aurory-Game/comptoir)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Open source market place & front end for secondary market transactions. Goodbye Magic Eden fees!
+
+- [token vesting](https://github.com/Bonfida/token-vesting)
+  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Simple vesting contract (SVC) that allows you to deposit X SPL tokens that are unlocked to a specified public key at a certain block height/ slot.
+
 ## 📕 Tokenomics
 
 [Tokenomics Bible](https://rhys-nemo.gitbook.io/tokenomics-bible/)
@@ -62,17 +74,6 @@ If you see something missing - please submit a PR 🙏
 
 - [Moralis](https://docs.moralis.io/introduction/readme)
   ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Makes Blockchain API calls easy! Moralis provides managed backend for blockchain projects. Automatically syncing the balances of your users into the database
-
-## Cool utility for your collection
-
-- [draffle](https://github.com/draffle-io/draffle)
-  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - dRaffle is a decentralized raffle protocol on Solana, which creates the necessary technical foundation to the dRaffle Luck Club.
-
-- [compitor](https://github.com/Aurory-Game/comptoir)
-  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Open source market place & front end for secondary market transactions. Goodbye Magic Eden fees!
-
-- [token vesting](https://github.com/Bonfida/token-vesting)
-  ![](https://img.shields.io/github/stars/gemworks/gem-farm.svg?style=social) - Simple vesting contract (SVC) that allows you to deposit X SPL tokens that are unlocked to a specified public key at a certain block height/ slot.
 
 ## 🪙 Liquidity Pools
 
