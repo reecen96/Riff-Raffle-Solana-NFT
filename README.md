@@ -1,6 +1,6 @@
-# Riff Raffle 🎰
+# Riff Raffle
 
-![alt text](https://i.ibb.co/VMxvN7F/pxArt.png)
+![alt text](https://i.ibb.co/8d9zCcy/Screen-Shot-2022-06-04-at-8-52-07-pm.png)
 
 Decentralized Raffle system on the Solana Blockchain. Raffle off NFTs or SPL tokens - purchase
 tickets using Solana or SPL tokens
